@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Amazing Egypt Tour",
+    "country": "Egypt",
+    "description": "Explore the wonders of ancient Egypt, from the pyramids of Giza to the temples of Luxor.",
+    "price": 1200,
+    "image": "/images/egypt.jpg"
+  },
+  {
+    "id": "2",
+    "name": "European Capitals",
+    "country": "Europe",
+    "description": "A whirlwind tour of the most iconic capitals in Europe, including Paris, Rome, and London.",
+    "price": 2500,
+    "image": "/images/europe.jpg"
+  },
+  {
+    "id": "3",
+    "name": "Discover Lebanon",
+    "country": "Lebanon",
+    "description": "Experience the rich history, vibrant culture, and delicious cuisine of Lebanon.",
+    "price": 900,
+    "image": "/images/lebanon.jpg"
+  }
+]

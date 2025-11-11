@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "country": "UAE",
+    "type": "Tourist Visa",
+    "processingTime": "3-5 business days",
+    "price": 150
+  },
+  {
+    "id": "2",
+    "country": "Saudi Arabia",
+    "type": "Umrah Visa",
+    "processingTime": "5-7 business days",
+    "price": 200
+  },
+  {
+    "id": "3",
+    "country": "China",
+    "type": "Business Visa",
+    "processingTime": "10-15 business days",
+    "price": 250
+  }
+]

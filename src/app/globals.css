@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-color: #1d4ed8;
+  --primary-color-dark: #1E40AF;
+  --secondary-color: #4F46E5;
+  --accent-color: #F59E0B;
+  --background: #FFFFFF;
+  --foreground: #1F2937;
+  --card-background: #FFFFFF;
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --border-radius: 0.75rem;
+  --transition-slow: all 0.5s ease-out;
+  --transition-medium: all 0.3s ease;
+  --transition-fast: all 0.2s ease-in-out;
 }
 
 @theme inline {
@@ -12,15 +22,193 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Global Styles */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+/* Remove underline from all links and text */
+a,
+a:hover,
+a:focus,
+a:active,
+a:visited,
+Link,
+.link {
+  text-decoration: none !important;
+}
+
+/* Navigation Styles */
+nav.bg-\[var\(--primary-color\)\] {
+  background-color: var(--primary-color) !important;
+}
+
+nav.bg-\[var\(--primary-color\)\] a,
+nav.bg-\[var\(--primary-color\)\] button,
+nav.bg-\[var\(--primary-color\)\] span,
+nav.bg-\[var\(--primary-color\)\] .text-white {
+  color: #ffffff !important;
+}
+
+nav.bg-\[var\(--primary-color\)\] .dropdown-menu a {
+  color: var(--foreground) !important;
+}
+
+/* Fix dropdown menu colors - ensure text is visible on white background */
+nav.bg-\[var\(--primary-color\)\] .bg-white a,
+nav.bg-\[var\(--primary-color\)\] div[style*="background"] a {
+  color: #374151 !important;
+}
+
+nav.bg-\[var\(--primary-color\)\] .bg-white {
+  background-color: #ffffff !important;
+}
+
+/* Generic Animation Classes (can be used anywhere) */
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s ease forwards;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.6s ease forwards;
+}
+
+.scale-in {
+  animation: scaleIn 0.5s ease forwards;
+}
+
+/* Keyframes Definitions */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from { 
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* A few reusable custom classes if needed */
+.section-title::after {
+  content: '';
+  position: absolute;
+  height: 4px;
+  width: 60px;
+  background: var(--primary-color);
+  bottom: 0;
+  /* In RTL, start from the right */
+  inset-inline-start: 0;
+}
+
+.section-title.text-center::after {
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+}
+
+/* Footer styles - ensure all text is white */
+footer,
+footer a,
+footer span,
+footer p,
+footer li,
+footer h5,
+footer h6,
+footer .text-white,
+footer .text-white\/80 {
+  color: #ffffff !important;
+}
+
+footer a:hover,
+footer a:focus,
+footer a:active,
+footer a:visited {
+  color: #ffffff !important;
+}
+
+/* Special class for the footer link hover effect with RTL support */
+.footer-link {
+    position: relative;
+    padding-inline-start: 15px;
+    color: #ffffff !important;
+}
+
+.footer-link:before {
+    content: '←'; /* Arrow for RTL */
+    position: absolute;
+    inset-inline-start: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover:before {
+    opacity: 1;
+    transform: translateX(-5px);
+}
+
+.footer-link:hover {
+    color: #ffffff !important;
 }
