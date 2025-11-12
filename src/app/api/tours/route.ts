@@ -27,7 +27,7 @@ export async function GET() {
   try {
     const tours = await readToursData();
     return NextResponse.json(tours);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
   }
 }
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     await writeToursData(tours);
 
     return NextResponse.json(newTourWithId, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }

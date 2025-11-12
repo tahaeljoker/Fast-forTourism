@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { AnimatedWrapper, StaggeredList } from '@/components/animations';
 
 const Footer = () => {
   const quickLinks = [

@@ -40,7 +40,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     
     try {
       setAdminUser(JSON.parse(user));
-    } catch (error) {
+    } catch {
       router.push('/admin/login');
     }
   }, [router]);

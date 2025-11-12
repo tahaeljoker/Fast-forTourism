@@ -33,7 +33,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 
     return NextResponse.json(visa);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
   }
 }
@@ -41,7 +41,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 // DELETE a visa by ID
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
-    let visas = await readVisasData();
+    const visas = await readVisasData();
     const visaIndex = visas.findIndex((v) => v.id === params.id);
 
     if (visaIndex === -1) {
@@ -52,7 +52,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     await writeVisasData(visas);
 
     return NextResponse.json({ message: 'Visa deleted successfully' }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }
@@ -60,7 +60,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 // PUT (update) a visa by ID
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
-    let visas = await readVisasData();
+    const visas = await readVisasData();
     const visaIndex = visas.findIndex((v) => v.id === params.id);
 
     if (visaIndex === -1) {
@@ -78,7 +78,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     await writeVisasData(visas);
 
     return NextResponse.json(visas[visaIndex]);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }

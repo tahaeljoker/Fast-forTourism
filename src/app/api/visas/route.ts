@@ -26,7 +26,7 @@ export async function GET() {
   try {
     const visas = await readVisasData();
     return NextResponse.json(visas);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
   }
 }
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     await writeVisasData(visas);
 
     return NextResponse.json(newVisaWithId, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }

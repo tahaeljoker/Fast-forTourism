@@ -33,7 +33,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 
     return NextResponse.json(offer);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
   }
 }
@@ -41,7 +41,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 // DELETE an offer by ID
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
-    let offers = await readOffersData();
+    const offers = await readOffersData();
     const offerIndex = offers.findIndex((o) => o.id === params.id);
 
     if (offerIndex === -1) {
@@ -52,7 +52,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     await writeOffersData(offers);
 
     return NextResponse.json({ message: 'Offer deleted successfully' }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }
@@ -60,7 +60,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 // PUT (update) an offer by ID
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
-    let offers = await readOffersData();
+    const offers = await readOffersData();
     const offerIndex = offers.findIndex((o) => o.id === params.id);
 
     if (offerIndex === -1) {
@@ -78,7 +78,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     await writeOffersData(offers);
 
     return NextResponse.json(offers[offerIndex]);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }

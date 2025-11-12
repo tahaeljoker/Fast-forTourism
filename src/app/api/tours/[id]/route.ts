@@ -33,7 +33,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 
     return NextResponse.json(tour);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
   }
 }
@@ -41,7 +41,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 // DELETE a tour by ID
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
-    let tours = await readToursData();
+    const tours = await readToursData();
     const tourIndex = tours.findIndex((t) => t.id === params.id);
 
     if (tourIndex === -1) {
@@ -52,7 +52,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     await writeToursData(tours);
 
     return NextResponse.json({ message: 'Tour deleted successfully' }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }
@@ -60,7 +60,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 // PUT (update) a tour by ID
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
-    let tours = await readToursData();
+    const tours = await readToursData();
     const tourIndex = tours.findIndex((t) => t.id === params.id);
 
     if (tourIndex === -1) {
@@ -78,7 +78,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     await writeToursData(tours);
 
     return NextResponse.json(tours[tourIndex]);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }

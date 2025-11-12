@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Tabs, Tab } from 'react-bootstrap';
 
@@ -102,7 +103,7 @@ export default function SettingsPage() {
                     <Form.Group className="mb-3">
                       <Form.Label>شعار الموقع</Form.Label>
                       <div className="d-flex align-items-center">
-                        <img src={settings.siteLogo} alt="Logo" style={{ width: '40px', height: '40px', marginRight: '10px', background: '#f1f1f1' }} />
+                        <Image src={settings.siteLogo} alt="Logo" width={40} height={40} style={{ marginRight: '10px', background: '#f1f1f1' }} />
                         <Form.Control
                           type="file"
                           onChange={handleLogoChange}

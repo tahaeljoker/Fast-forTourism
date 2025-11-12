@@ -26,7 +26,7 @@ export async function GET() {
   try {
     const offers = await readOffersData();
     return NextResponse.json(offers);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
   }
 }
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     await writeOffersData(offers);
 
     return NextResponse.json(newOfferWithId, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }
