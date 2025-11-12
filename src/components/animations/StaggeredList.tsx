@@ -1,83 +1,64 @@
-'use client';
+"use client";
+import React from 'react';
+import { motion, Variants } from 'framer-motion';
 
-import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+type AnimationType = 'fadeIn' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scale';
 
-interface StaggeredListProps {
-  children: ReactNode[];
-  animationType?: 'fadeIn' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scale';
-  staggerDelay?: number;
+type StaggeredListProps = {
+  items: React.ReactNode[];
+  animationType?: AnimationType;
+  stagger?: number;
   duration?: number;
   className?: string;
-}
+};
 
-const animationVariants = {
+const itemVariants: Record<AnimationType, Variants> = {
   fadeIn: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
+    hidden: { opacity: 0 },
+    show: { opacity: 1 },
   },
   slideUp: {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
   },
   slideLeft: {
-    initial: { opacity: 0, x: -20 },
-    animate: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: 20 },
+    show: { opacity: 1, x: 0 },
   },
   slideRight: {
-    initial: { opacity: 0, x: 20 },
-    animate: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0 },
   },
   scale: {
-    initial: { opacity: 0, scale: 0.9 },
-    animate: { opacity: 1, scale: 1 },
+    hidden: { opacity: 0, scale: 0.95 },
+    show: { opacity: 1, scale: 1 },
   },
 };
 
 export default function StaggeredList({
-  children,
-  animationType = 'slideUp',
-  staggerDelay = 0.1,
-  duration = 0.5,
-  className = '',
+  items,
+  animationType = 'fadeIn',
+  stagger = 0.08,
+  duration = 0.4,
+  className,
 }: StaggeredListProps) {
-  const variants = animationVariants[animationType];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: staggerDelay,
-        duration: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: variants.initial,
-    visible: {
-      ...variants.animate,
-      transition: {
-        duration,
-        ease: 'easeOut',
-      },
-    },
-  };
-
   return (
-    <motion.div
+    <motion.ul
       className={className}
-      variants={containerVariants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-50px' }}
+      whileInView="show"
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ staggerChildren: stagger }}
     >
-      {children.map((child, index) => (
-        <motion.div key={index} variants={itemVariants}>
+      {items.map((child, i) => (
+        <motion.li
+          key={i}
+          variants={itemVariants[animationType]}
+          transition={{ duration }}
+        >
           {child}
-        </motion.div>
+        </motion.li>
       ))}
-    </motion.div>
+    </motion.ul>
   );
 }

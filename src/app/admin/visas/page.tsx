@@ -26,7 +26,8 @@ export default function VisasPage() {
         const data = await response.json();
         setVisas(data);
       } catch (err) {
-        setError(err.message);
+          const message = err instanceof Error ? err.message : String(err);
+          setError(message);
       } finally {
         setLoading(false);
       }
@@ -48,7 +49,8 @@ export default function VisasPage() {
 
         setVisas(visas.filter((visa) => visa.id !== id));
       } catch (err) {
-        setError(err.message);
+          const message = err instanceof Error ? err.message : String(err);
+          setError(message);
         alert('Error deleting visa.');
       }
     }

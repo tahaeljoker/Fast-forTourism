@@ -25,8 +25,9 @@ export default function OffersPage() {
         }
         const data = await response.json();
         setOffers(data);
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -47,8 +48,9 @@ export default function OffersPage() {
         }
 
         setOffers(offers.filter((offer) => offer.id !== id));
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        setError(message);
         alert('Error deleting offer.');
       }
     }

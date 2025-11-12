@@ -30,8 +30,9 @@ export default function EditTourPage() {
           }
           const data = await response.json();
           setTour(data);
-        } catch (err) {
-          setError(err.message);
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : String(err);
+          setError(message);
         }
       }
       fetchTour();
@@ -40,10 +41,13 @@ export default function EditTourPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setTour((prevTour) => ({
-      ...prevTour,
-      [name]: name === 'price' ? parseFloat(value) || 0 : value,
-    }));
+    setTour((prevTour) => {
+      if (!prevTour) return prevTour;
+      return ({
+        ...prevTour,
+        [name]: name === 'price' ? parseFloat(value) || 0 : value,
+      } as Tour);
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,8 +72,9 @@ export default function EditTourPage() {
       }
 
       router.push('/admin/tours');
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
     } finally {
       setSubmitting(false);
     }

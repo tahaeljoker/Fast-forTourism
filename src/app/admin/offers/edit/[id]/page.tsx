@@ -29,8 +29,9 @@ export default function EditOfferPage() {
           }
           const data = await response.json();
           setOffer(data);
-        } catch (err) {
-          setError(err.message);
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : String(err);
+          setError(message);
         }
       }
       fetchOffer();
@@ -39,10 +40,13 @@ export default function EditOfferPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setOffer((prevOffer) => ({
-      ...prevOffer,
-      [name]: name === 'discountPercentage' ? parseFloat(value) || 0 : value,
-    }));
+    setOffer((prevOffer) => {
+      if (!prevOffer) return prevOffer;
+      return ({
+        ...prevOffer,
+        [name]: name === 'discountPercentage' ? parseFloat(value) || 0 : value,
+      } as Offer);
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,8 +71,9 @@ export default function EditOfferPage() {
       }
 
       router.push('/admin/offers');
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
     } finally {
       setSubmitting(false);
     }

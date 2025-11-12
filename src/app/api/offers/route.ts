@@ -2,15 +2,24 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
-const dataFilePath = path.join(process.cwd(), 'app', 'src', 'data', 'offers.json');
+const dataFilePath = path.join(process.cwd(), 'src', 'data', 'offers.json');
+
+type Offer = {
+  id: string;
+  title: string;
+  description?: string;
+  discountPercentage: number;
+  tourId?: string;
+};
 
 // Helper function to read data
-async function readOffersData() {
+async function readOffersData(): Promise<Offer[]> {
   try {
     const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData);
-  } catch (error) {
-    if (error.code === 'ENOENT') {
+    return JSON.parse(fileData) as Offer[];
+  } catch (error: unknown) {
+    const e = error as { code?: string };
+    if (e.code === 'ENOENT') {
       return [];
     }
     throw error;
@@ -18,7 +27,7 @@ async function readOffersData() {
 }
 
 // Helper function to write data
-async function writeOffersData(data) {
+async function writeOffersData(data: Offer[]) {
   await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
 }
 

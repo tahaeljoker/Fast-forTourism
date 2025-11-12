@@ -13,16 +13,16 @@ const ChinaPage = () => {
   ];
 
   const packages = [
-    { name: 'Classic Beijing Tour', duration: '5 Days', price: '$800', description: 'Great Wall and Imperial Palace', image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
+    { name: 'Classic Beijing Tour', duration: '5 Days', price: '$800', description: 'Great Wall and Imperial Palace', image: 'https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
     { name: 'Modern Shanghai', duration: '4 Days', price: '$700', description: 'City and shopping', image: 'https://images.pexels.com/photos/1519088/pexels-photo-1519088.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
-    { name: 'Historic Xi\'an', duration: '3 Days', price: '$600', description: 'Terracotta Army', image: 'https://images.pexels.com/photos/1618606/pexels-photo-1618606.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
-    { name: 'Complete China Experience', duration: '12 Days', price: '$2000', description: 'Full experience', image: 'https://images.pexels.com/photos/3545688/pexels-photo-3545688.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1' },
+    { name: 'Historic Xi\'an', duration: '3 Days', price: '$600', description: 'Terracotta Army', image: 'https://images.pexels.com/photos/755726/pexels-photo-755726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
+    { name: 'Complete China Experience', duration: '12 Days', price: '$2000', description: 'Full experience', image: 'https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1' },
   ];
 
   return (
     <div>
       <section className="py-20 text-center text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)' }}>
-        <div className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30 scale-110" style={{ backgroundImage: 'url(https://images.pexels.com/photos/2386222/pexels-photo-2386222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)' }}></div>
+        <div className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30 scale-110" style={{ backgroundImage: 'url(https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2)' }}></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
           <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>China</h1>
           <p className="max-w-3xl mx-auto text-lg md:text-xl">Rich history and great civilization</p>
@@ -44,7 +44,7 @@ const ChinaPage = () => {
             </Col>
             <Col lg={6}>
               <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
-                <Image src="https://images.pexels.com/photos/2386222/pexels-photo-2386222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="China" fill className="object-cover" />
+                <Image src="https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="China" fill className="object-cover" />
               </div>
             </Col>
           </Row>

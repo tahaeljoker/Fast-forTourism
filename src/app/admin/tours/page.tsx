@@ -26,8 +26,9 @@ export default function ToursPage() {
         }
         const data = await response.json();
         setTours(data);
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -49,8 +50,9 @@ export default function ToursPage() {
 
         // Remove the tour from the local state to update the UI
         setTours(tours.filter((tour) => tour.id !== id));
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        setError(message);
         alert('Error deleting tour.');
       }
     }

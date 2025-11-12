@@ -2,16 +2,25 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
-const dataFilePath = path.join(process.cwd(), 'app', 'src', 'data', 'tours.json');
+const dataFilePath = path.join(process.cwd(), 'src', 'data', 'tours.json');
+
+type Tour = {
+  id: string;
+  name: string;
+  country?: string;
+  description?: string;
+  price: number;
+  image?: string;
+};
 
 // Helper function to read data
-async function readToursData() {
+async function readToursData(): Promise<Tour[]> {
   try {
     const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData);
-  } catch (error) {
-    // If the file doesn't exist, return an empty array
-    if (error.code === 'ENOENT') {
+    return JSON.parse(fileData) as Tour[];
+  } catch (error: unknown) {
+    const e = error as { code?: string };
+    if (e.code === 'ENOENT') {
       return [];
     }
     throw error;
@@ -19,7 +28,7 @@ async function readToursData() {
 }
 
 // Helper function to write data
-async function writeToursData(data) {
+async function writeToursData(data: Tour[]) {
   await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
 }
 

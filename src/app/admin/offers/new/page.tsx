@@ -38,8 +38,9 @@ export default function NewOfferPage() {
       }
 
       router.push('/admin/offers');
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
     } finally {
       setSubmitting(false);
     }

@@ -41,8 +41,9 @@ export default function NewTourPage() {
 
       // Redirect to the tours list page after successful creation
       router.push('/admin/tours');
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
     } finally {
       setSubmitting(false);
     }

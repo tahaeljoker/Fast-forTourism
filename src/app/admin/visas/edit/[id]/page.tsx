@@ -29,8 +29,9 @@ export default function EditVisaPage() {
           }
           const data = await response.json();
           setVisa(data);
-        } catch (err) {
-          setError(err.message);
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : String(err);
+          setError(message);
         }
       }
       fetchVisa();
@@ -39,10 +40,13 @@ export default function EditVisaPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setVisa((prevVisa) => ({
-      ...prevVisa,
-      [name]: name === 'price' ? parseFloat(value) || 0 : value,
-    }));
+    setVisa((prevVisa) => {
+      if (!prevVisa) return prevVisa;
+      return ({
+        ...prevVisa,
+        [name]: name === 'price' ? parseFloat(value) || 0 : value,
+      } as Visa);
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,8 +71,9 @@ export default function EditVisaPage() {
       }
 
       router.push('/admin/visas');
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
     } finally {
       setSubmitting(false);
     }

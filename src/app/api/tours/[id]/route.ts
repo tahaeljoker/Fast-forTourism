@@ -2,15 +2,25 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
-const dataFilePath = path.join(process.cwd(), 'app', 'src', 'data', 'tours.json');
+const dataFilePath = path.join(process.cwd(), 'src', 'data', 'tours.json');
+
+type Tour = {
+  id: string;
+  name: string;
+  country?: string;
+  description?: string;
+  price: number;
+  image?: string;
+};
 
 // Helper function to read data
-async function readToursData() {
+async function readToursData(): Promise<Tour[]> {
   try {
     const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData);
-  } catch (error) {
-    if (error.code === 'ENOENT') {
+    return JSON.parse(fileData) as Tour[];
+  } catch (error: unknown) {
+    const e = error as { code?: string };
+    if (e.code === 'ENOENT') {
       return [];
     }
     throw error;
@@ -18,15 +28,16 @@ async function readToursData() {
 }
 
 // Helper function to write data
-async function writeToursData(data) {
+async function writeToursData(data: Tour[]) {
   await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 // GET a single tour by ID
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const tours = await readToursData();
-    const tour = tours.find((t) => t.id === params.id);
+    const tour = tours.find((t) => t.id === id);
 
     if (!tour) {
       return NextResponse.json({ message: 'Tour not found' }, { status: 404 });
@@ -39,10 +50,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
 }
 
 // DELETE a tour by ID
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const tours = await readToursData();
-    const tourIndex = tours.findIndex((t) => t.id === params.id);
+    const tourIndex = tours.findIndex((t) => t.id === id);
 
     if (tourIndex === -1) {
       return NextResponse.json({ message: 'Tour not found' }, { status: 404 });
@@ -58,10 +70,11 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 }
 
 // PUT (update) a tour by ID
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const tours = await readToursData();
-    const tourIndex = tours.findIndex((t) => t.id === params.id);
+    const tourIndex = tours.findIndex((t) => t.id === id);
 
     if (tourIndex === -1) {
       return NextResponse.json({ message: 'Tour not found' }, { status: 404 });
