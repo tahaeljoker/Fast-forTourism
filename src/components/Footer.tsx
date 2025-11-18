@@ -19,7 +19,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-bl from-[var(--primary-color-dark)] to-[var(--primary-color)] text-white pt-12 pb-6 mt-16 relative overflow-hidden text-center lg:text-start">
+    <footer className="bg-gradient-to-bl from-[var(--primary-color-dark)] to-[var(--primary-color)] text-white pt-12 pb-6 mt-16 relative overflow-hidden text-center lg:text-left">
       {/* Decorative background pattern */}
       <div 
         className="absolute inset-0 w-full h-full opacity-5"
@@ -32,7 +32,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-1 mb-6 lg:mb-0">
             <div className="flex items-center justify-center lg:justify-start mb-3">
-              <Image src="/globe.svg" alt="Logo" width={40} height={40} className="ms-2" />
+              <Image src="/globe.svg" alt="Logo" width={40} height={40} className="mr-2" />
               <h5 className="mb-0 font-bold text-xl">Fast for Tourism</h5>
             </div>
             <p className="text-white/80 text-sm">
@@ -66,19 +66,19 @@ const Footer = () => {
             <h5 className="uppercase font-bold mb-4 text-white">Contact Us</h5>
             <ul className="list-unstyled space-y-3 text-sm">
               <li className="flex items-start hover:text-white transition-colors duration-300">
-                <i className="fas fa-map-marker-alt text-white/80 w-5 text-center mt-1 ms-2"></i>
-                <span className="text-white">مدينة 6 أكتوبر، الحي العاشر – أبراج سيتي ستار، برج 6، أعلى بنك الإمارات دبي الوطني، الجيزة، مصر</span>
+                <i className="fas fa-map-marker-alt text-white/80 w-5 text-center mt-1 mr-2"></i>
+                <span className="text-white">6th of October City, 10th District - City Stars Towers, Tower 6, Above Emirates NBD Bank, Giza, Egypt</span>
               </li>
               <li className="flex items-start">
-                <i className="fas fa-envelope text-white/80 w-5 text-center mt-1 ms-2"></i>
+                <i className="fas fa-envelope text-white/80 w-5 text-center mt-1 mr-2"></i>
                 <span className="text-white">info@fastfortourism.com</span>
               </li>
               <li className="flex items-start">
-                <i className="fas fa-phone text-white/80 w-5 text-center mt-1 ms-2"></i>
+                <i className="fas fa-phone text-white/80 w-5 text-center mt-1 mr-2"></i>
                 <span className="text-white">+201111899963</span>
               </li>
               <li className="flex items-start">
-                <i className="fas fa-clock text-white/80 w-5 text-center mt-1 ms-2"></i>
+                <i className="fas fa-clock text-white/80 w-5 text-center mt-1 mr-2"></i>
                 <span className="text-white">Working Hours: 9 AM - 6 PM</span>
               </li>
             </ul>

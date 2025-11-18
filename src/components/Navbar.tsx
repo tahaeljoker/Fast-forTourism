@@ -45,7 +45,7 @@ const AppNavbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center text-white hover:text-white space-x-2 rtl:space-x-reverse">
+            <Link href="/" className="flex items-center text-white hover:text-white space-x-2">
               <Image src="/images/logo.png" alt="Logo" width={30} height={30} />
               <span className="font-bold text-white">Fast for Tourism</span>
             </Link>
@@ -53,7 +53,7 @@ const AppNavbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:block">
-            <div className="ms-auto flex items-center space-x-4 rtl:space-x-reverse">
+            <div className="ms-auto flex items-center space-x-4">
               <NavLink href="/">Home</NavLink>
               <NavLink href="/about">About Us</NavLink>
               {/* Tours Dropdown */}
@@ -70,12 +70,12 @@ const AppNavbar = () => {
                   <i className="fas fa-chevron-down text-xs ms-1 text-white"></i>
                 </button>
                 {isDropdownOpen && (
-                  <div className="absolute -start-4 top-full mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 z-[60]">
+                  <div className="absolute left-0 top-full mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 z-[60]">
                     {tourLinks.map(link => (
                       <Link 
                         key={link.href} 
                         href={link.href} 
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-right transition-colors duration-200"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-left transition-colors duration-200"
                         style={{ color: '#374151' }}
                         onClick={() => setIsDropdownOpen(false)}
                       >
@@ -120,7 +120,7 @@ const AppNavbar = () => {
             <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-white !important hover:bg-white/20">About Us</Link>
             {/* Mobile Tours Dropdown - Simplified as a list */}
             <div className="px-3 py-2 text-base font-medium text-white !important">Tours</div>
-            <div className="ps-4">
+            <div className="pl-4">
               {tourLinks.map(link => (
                 <Link key={link.href} href={link.href} className="block px-3 py-2 rounded-md text-sm font-medium text-white/90 hover:bg-white/20">
                   {link.text}
