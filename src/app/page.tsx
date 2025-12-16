@@ -14,14 +14,6 @@ interface Tour {
   image?: string;
 }
 
-interface Offer {
-  id: string;
-  title: string;
-  description: string;
-  discountPercentage: number;
-  tourId: string;
-}
-
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [tours, setTours] = useState<Tour[]>([]);
