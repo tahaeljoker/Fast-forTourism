@@ -12,8 +12,6 @@ interface Offer {
 
 const OffersPage = () => {
   const [offers, setOffers] = useState<Offer[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchOffers() {
@@ -25,10 +23,7 @@ const OffersPage = () => {
         const data = await response.json();
         setOffers(data);
       } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err);
-        setError(message);
-      } finally {
-        setLoading(false);
+        console.error('Error fetching offers:', err);
       }
     }
 

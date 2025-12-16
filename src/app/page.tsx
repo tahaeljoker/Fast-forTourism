@@ -25,9 +25,7 @@ interface Offer {
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [tours, setTours] = useState<Tour[]>([]);
-  const [offers, setOffers] = useState<Offer[]>([]);
   const [loadingTours, setLoadingTours] = useState(true);
-  const [loadingOffers, setLoadingOffers] = useState(true);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -50,24 +48,6 @@ export default function Home() {
     }
 
     fetchTours();
-  }, []);
-
-  useEffect(() => {
-    async function fetchOffers() {
-      try {
-        const response = await fetch('/api/offers');
-        if (response.ok) {
-          const data = await response.json();
-          setOffers(data.slice(0, 3));
-        }
-      } catch (error) {
-        console.error('Error fetching offers:', error);
-      } finally {
-        setLoadingOffers(false);
-      }
-    }
-
-    fetchOffers();
   }, []);
 
   const getTransitionStyle = (isVisible: boolean, delay = 0, duration = 800, transform = 20) => ({
