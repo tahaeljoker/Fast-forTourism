@@ -25,7 +25,9 @@ interface Offer {
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [tours, setTours] = useState<Tour[]>([]);
+  const [offers, setOffers] = useState<Offer[]>([]);
   const [loadingTours, setLoadingTours] = useState(true);
+  const [loadingOffers, setLoadingOffers] = useState(true);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -160,7 +162,6 @@ export default function Home() {
                   isMounted={isMounted} 
                   countryKey={tour.country?.toLowerCase() || 'tour'}
                   image={tour.image || 'https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=1000'}
-                  tourData={tour}
                 />
               ))
             ) : (
