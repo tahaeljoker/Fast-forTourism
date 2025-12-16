@@ -164,7 +164,6 @@ const ToursPage = () => {
       `}</style>
     </div>
   );
-};
-};
+}
 
 export default ToursPage;
