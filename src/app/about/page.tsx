@@ -1,20 +1,23 @@
 'use client';
 
 import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AboutPage() {
+  const { t } = useLanguage();
+
   const features = [
-    { icon: 'fa-globe', title: 'Global Reach', description: 'We provide tourism services to destinations around the world' },
-    { icon: 'fa-users', title: 'Expert Team', description: 'Our team consists of experienced tourism professionals' },
-    { icon: 'fa-star', title: 'Premium Services', description: 'We offer high-quality services at competitive prices' },
-    { icon: 'fa-clock', title: '24/7 Support', description: 'We are available around the clock to serve you' },
+    { icon: 'fa-globe', key: 'globalReach' },
+    { icon: 'fa-users', key: 'expertTeam' },
+    { icon: 'fa-star', key: 'premiumServices' },
+    { icon: 'fa-clock', key: 'support24_7' },
   ];
 
   const stats = [
-    { number: '10,000+', label: 'Happy Customers' },
-    { number: '50+', label: 'Destinations' },
-    { number: '15+', label: 'Years Experience' },
-    { number: '98%', label: 'Satisfaction Rate' },
+    { number: '10,000+', key: 'happyCustomers' },
+    { number: '50+', key: 'destinations' },
+    { number: '15+', key: 'yearsExperience' },
+    { number: '98%', key: 'satisfactionRate' },
   ];
 
   return (
@@ -23,8 +26,8 @@ export default function AboutPage() {
       <section className="py-20 text-center text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)' }}>
         <div className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30 scale-110" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=1000)' }}></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>من نحن</h1>
-          <p className="max-w-3xl mx-auto text-lg md:text-xl">نحن شركة رائدة في مجال السياحة والسفر، نقدم أفضل الخدمات لعملائنا</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>{t('aboutTitle')}</h1>
+          <p className="max-w-3xl mx-auto text-lg md:text-xl">{t('welcome')}</p>
         </div>
       </section>
 
@@ -33,15 +36,15 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-6">Fast for Tourism</h2>
+              <h2 className="text-3xl font-bold mb-6">{t('fastForTourism')}</h2>
               <p className="text-gray-600 mb-4 text-lg">
-                نحن شركة متخصصة في تقديم خدمات السياحة والسفر على مستوى عالمي. نتمتع بخبرة طويلة في مجال السياحة ونقدم لعملائنا أفضل العروض والخدمات بأفضل الأسعار.
+                {t('aboutTitle')} - {t('bestTourist')}
               </p>
               <p className="text-gray-600 mb-4 text-lg">
-                نسعى جاهدين لتقديم تجربة سياحية فريدة ومميزة لعملائنا من خلال فريق متخصص من الخبراء في مجال السياحة والسفر، وشراكات قوية مع أفضل الفنادق والخطوط الجوية حول العالم.
+                {t('ourServices')} - {t('contact')}
               </p>
               <p className="text-gray-600 text-lg">
-                نقدم خدمات شاملة تشمل حجز الفنادق، تذاكر الطيران، الجولات السياحية، التأشيرات، والكثير من الخدمات الأخرى التي تجعل رحلتك مثالية.
+                {t('hotelBookings')} - {t('visaServices')}
               </p>
             </div>
             <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
@@ -63,7 +66,7 @@ export default function AboutPage() {
             {stats.map((stat, index) => (
               <div key={index} className="p-6">
                 <div className="text-4xl md:text-5xl font-bold text-[var(--primary-color)] mb-2">{stat.number}</div>
-                <div className="text-gray-600 text-lg">{stat.label}</div>
+                <div className="text-gray-600 text-lg">{t(stat.key)}</div>
               </div>
             ))}
           </div>
@@ -74,8 +77,8 @@ export default function AboutPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold section-title inline-block relative mb-4">لماذا نحن؟</h2>
-            <p className="text-gray-600 text-lg">نقدم لك أفضل الخدمات والسياحة في العالم</p>
+            <h2 className="text-3xl font-bold section-title inline-block relative mb-4">{t('aboutTitle')}</h2>
+            <p className="text-gray-600 text-lg">{t('ourServices')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
@@ -83,8 +86,8 @@ export default function AboutPage() {
                 <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
                   <i className={`fas ${feature.icon} text-2xl text-[var(--primary-color)]`}></i>
                 </div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-xl font-bold mb-3">{t(feature.key)}</h3>
+                <p className="text-gray-600">{t(feature.key + 'Desc')}</p>
               </div>
             ))}
           </div>
@@ -99,18 +102,18 @@ export default function AboutPage() {
               <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-6">
                 <i className="fas fa-bullseye text-2xl text-[var(--primary-color)]"></i>
               </div>
-              <h3 className="text-2xl font-bold mb-4">رؤيتنا</h3>
+              <h3 className="text-2xl font-bold mb-4">{t('contact')}</h3>
               <p className="text-gray-600 text-lg">
-                أن نكون الشركة الرائدة في مجال السياحة والسفر في المنطقة، وأن نوفر لعملائنا أفضل التجارب السياحية التي تبقى في ذاكرتهم للأبد.
+                {t('ourServices')}
               </p>
             </div>
             <div className="p-8 rounded-lg shadow-lg bg-white">
               <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-6">
                 <i className="fas fa-rocket text-2xl text-[var(--primary-color)]"></i>
               </div>
-              <h3 className="text-2xl font-bold mb-4">مهمتنا</h3>
+              <h3 className="text-2xl font-bold mb-4">{t('tours')}</h3>
               <p className="text-gray-600 text-lg">
-                تقديم خدمات سياحية عالية الجودة بأسعار منافسة، مع ضمان رضا العملاء من خلال فريق متخصص وخدمة عملاء متميزة على مدار الساعة.
+                {t('bestTourist')}
               </p>
             </div>
           </div>

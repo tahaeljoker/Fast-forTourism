@@ -48,64 +48,9 @@ export default function AnalyticsDashboard() {
   const [alert, setAlert] = useState<{ type: string; message: string } | null>(null);
 
   useEffect(() => {
-    // محاكاة تحميل البيانات
-    setAnalyticsData({
-      totalVisitors: 15420,
-      totalBookings: 324,
-      totalRevenue: 485600,
-      conversionRate: 2.1,
-      popularTours: [
-        { name: 'جولة مصر الكلاسيكية', bookings: 45, revenue: 112500 },
-        { name: 'دبي الحديثة', bookings: 38, revenue: 68400 },
-        { name: 'أوروبا الرومانسية', bookings: 32, revenue: 102400 },
-        { name: 'ماليزيا الاستوائية', bookings: 28, revenue: 56000 },
-        { name: 'جولة الصين', bookings: 25, revenue: 75000 }
-      ],
-      monthlyStats: [
-        { month: 'يناير', visitors: 5200, bookings: 108, revenue: 162000 },
-        { month: 'فبراير', visitors: 4800, bookings: 95, revenue: 142500 },
-        { month: 'مارس', visitors: 5420, bookings: 121, revenue: 181100 }
-      ],
-      topCountries: [
-        { country: 'السعودية', visitors: 8500, percentage: 55.1 },
-        { country: 'الإمارات', visitors: 3200, percentage: 20.8 },
-        { country: 'الكويت', visitors: 1800, percentage: 11.7 },
-        { country: 'قطر', visitors: 1200, percentage: 7.8 },
-        { country: 'البحرين', visitors: 720, percentage: 4.7 }
-      ],
-      deviceStats: [
-        { device: 'الهاتف المحمول', visitors: 9252, percentage: 60 },
-        { device: 'الكمبيوتر المكتبي', visitors: 4626, percentage: 30 },
-        { device: 'التابلت', visitors: 1542, percentage: 10 }
-      ]
-    });
-
-    setReports([
-      {
-        id: 1,
-        title: 'تقرير المبيعات الشهري',
-        type: 'financial',
-        dateRange: '2024-01-01 إلى 2024-01-31',
-        generatedAt: '2024-01-31',
-        status: 'ready'
-      },
-      {
-        id: 2,
-        title: 'تقرير الحجوزات الأسبوعي',
-        type: 'bookings',
-        dateRange: '2024-01-22 إلى 2024-01-28',
-        generatedAt: '2024-01-28',
-        status: 'ready'
-      },
-      {
-        id: 3,
-        title: 'تقرير الزوار الشهري',
-        type: 'visitors',
-        dateRange: '2024-01-01 إلى 2024-01-31',
-        generatedAt: '2024-01-31',
-        status: 'generating'
-      }
-    ]);
+    // لا توجد بيانات افتراضية - سيتم جلب البيانات من API في المستقبل
+    setAnalyticsData(null);
+    setReports([]);
   }, [dateRange]);
 
   const generateReport = (type: string) => {

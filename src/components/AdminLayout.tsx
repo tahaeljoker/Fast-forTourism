@@ -26,6 +26,7 @@ interface AdminLayoutProps {
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [adminUser, setAdminUser] = useState<AdminUser | null>(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -33,17 +34,32 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     const token = localStorage.getItem('adminToken');
     const user = localStorage.getItem('adminUser');
     
-    if (!token || !user) {
-      router.push('/admin/login');
-      return;
+    // إذا كان هناك توكن، استخدم بيانات المستخدم أو القيم الافتراضية
+    if (token) {
+      if (user) {
+        try {
+          setAdminUser(JSON.parse(user));
+        } catch {
+          // إذا فشل التحليل، استخدم بيانات افتراضية
+          setAdminUser({
+            id: 1,
+            name: 'المسؤول',
+            email: 'admin@fastfortourism.com',
+            role: 'مدير عام'
+          });
+        }
+      } else {
+        // لم يكن هناك بيانات مستخدم، استخدم الافتراضية
+        setAdminUser({
+          id: 1,
+          name: 'المسؤول',
+          email: 'admin@fastfortourism.com',
+          role: 'مدير عام'
+        });
+      }
     }
-    
-    try {
-      setAdminUser(JSON.parse(user));
-    } catch {
-      router.push('/admin/login');
-    }
-  }, [router]);
+    setIsLoaded(true);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
@@ -106,11 +122,21 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     }
   ];
 
-  if (!adminUser) {
+  if (!isLoaded) {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-100">
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">جاري التحميل...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!adminUser) {
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <div className="text-center">
+          <p className="text-danger">خطأ في تحميل بيانات المستخدم</p>
         </div>
       </div>
     );

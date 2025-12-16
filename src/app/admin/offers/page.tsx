@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import ProtectedAdminPage from '@/components/ProtectedAdminPage';
 
 interface Offer {
   id: string;
@@ -71,13 +72,14 @@ export default function OffersPage() {
   }
 
   return (
-    <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Offers Management</h1>
-        <Link href="/admin/offers/new" className="btn btn-primary">
-          Add New Offer
-        </Link>
-      </div>
+    <ProtectedAdminPage>
+      <div className="container mt-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h1>Offers Management</h1>
+          <Link href="/admin/offers/new" className="btn btn-primary">
+            Add New Offer
+          </Link>
+        </div>
 
       <div className="card">
         <div className="card-body">
@@ -112,6 +114,7 @@ export default function OffersPage() {
           </table>
         </div>
       </div>
-    </div>
+      </div>
+    </ProtectedAdminPage>
   );
 }

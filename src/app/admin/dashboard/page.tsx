@@ -6,73 +6,108 @@ import { Container, Row, Col, Card, Table, Badge, Button } from 'react-bootstrap
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasAccess, setHasAccess] = useState(false);
   const [stats, setStats] = useState({
     totalTours: 0,
     totalOffers: 0,
-    totalVisas: 0,
-    totalUsers: 0
+    totalVisas: 0
   });
+  const [recentActivities, setRecentActivities] = useState<any[]>([]);
+  const [recentBookings, setRecentBookings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const [recentActivities] = useState([
-    {
-      id: 1,
-      type: 'tour',
-      title: 'جولة جديدة إلى دبي',
-      date: '2024-01-15',
-      status: 'active'
-    },
-    {
-      id: 2,
-      type: 'offer',
-      title: 'عرض خاص لأوروبا',
-      date: '2024-01-14',
-      status: 'active'
-    },
-    {
-      id: 3,
-      type: 'visa',
-      title: 'طلب تأشيرة أمريكا',
-      date: '2024-01-13',
-      status: 'pending'
-    }
-  ]);
-
-  const [recentBookings] = useState([
-    {
-      id: 1,
-      customer: 'أحمد محمد',
-      tour: 'جولة مصر',
-      date: '2024-01-15',
-      amount: 2500,
-      status: 'confirmed'
-    },
-    {
-      id: 2,
-      customer: 'فاطمة علي',
-      tour: 'جولة ماليزيا',
-      date: '2024-01-14',
-      amount: 1800,
-      status: 'pending'
-    },
-    {
-      id: 3,
-      customer: 'محمد حسن',
-      tour: 'جولة أوروبا',
-      date: '2024-01-13',
-      amount: 3200,
-      status: 'confirmed'
-    }
-  ]);
-
+  // التحقق من الجلسة والإعادة فوراً إذا لم يكن هناك توكن
   useEffect(() => {
-    // محاكاة تحميل البيانات
-    setStats({
-      totalTours: 8,
-      totalOffers: 5,
-      totalVisas: 12,
-      totalUsers: 45
-    });
-  }, []);
+    console.log('Dashboard: جاري التحقق من الجلسة');
+    if (typeof window !== 'undefined') {
+      const adminToken = localStorage.getItem('adminToken');
+      console.log('Dashboard: التوكن المحفوظ=', adminToken);
+      
+      if (!adminToken) {
+        console.log('Dashboard: لا يوجد توكن - إعادة توجيه للـ login');
+        router.push('/admin/login');
+      } else {
+        console.log('Dashboard: لديك وصول!');
+        setHasAccess(true);
+        setIsLoaded(true);
+      }
+    }
+  }, [router]);
+
+  // جلب البيانات من API
+  useEffect(() => {
+    if (!isLoaded || !hasAccess) return;
+
+    const fetchDashboardData = async () => {
+      setLoading(true);
+      try {
+        // جلب الجولات
+        const toursRes = await fetch('/api/tours');
+        const toursData = await toursRes.json();
+        const tours = Array.isArray(toursData) ? toursData : toursData.data || [];
+
+        // جلب العروض
+        const offersRes = await fetch('/api/offers');
+        const offersData = await offersRes.json();
+        const offers = Array.isArray(offersData) ? offersData : offersData.data || [];
+
+        // جلب التأشيرات
+        const visasRes = await fetch('/api/visas');
+        const visasData = await visasRes.json();
+        const visas = Array.isArray(visasData) ? visasData : visasData.data || [];
+
+        // تحديث الإحصائيات
+        setStats({
+          totalTours: tours.length,
+          totalOffers: offers.length,
+          totalVisas: visas.length
+        });
+
+        // تحديث النشاطات الأخيرة من البيانات الفعلية
+        const activities = [
+          ...tours.slice(0, 2).map((tour: any) => ({
+            id: tour.id,
+            type: 'tour',
+            title: tour.name,
+            date: new Date().toISOString().split('T')[0],
+            status: 'active'
+          })),
+          ...offers.slice(0, 1).map((offer: any) => ({
+            id: offer.id,
+            type: 'offer',
+            title: offer.title,
+            date: new Date().toISOString().split('T')[0],
+            status: 'active'
+          }))
+        ];
+        setRecentActivities(activities);
+
+        // تحديث الحجوزات الأخيرة (من الجولات والعروض)
+        const bookings = [
+          ...tours.slice(0, 3).map((tour: any) => ({
+            id: tour.id,
+            customer: 'عميل',
+            tour: tour.name,
+            date: new Date().toISOString().split('T')[0],
+            amount: tour.price || 0,
+            status: 'confirmed'
+          }))
+        ];
+        setRecentBookings(bookings);
+
+        console.log('Dashboard: تم جلب البيانات بنجاح');
+      } catch (error) {
+        console.error('Dashboard: خطأ في جلب البيانات:', error);
+        setRecentActivities([]);
+        setRecentBookings([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, [isLoaded, hasAccess]);
 
   const getStatusBadge = (status: string) => {
     const variants: { [key: string]: string } = {
@@ -95,7 +130,22 @@ export default function AdminDashboard() {
   };
 
   return (
-    <Container fluid>
+    <>
+      {!isLoaded ? (
+        <Container fluid className="py-5 text-center">
+          <div className="spinner-border text-primary mb-3" role="status">
+            <span className="visually-hidden">جاري التحقق...</span>
+          </div>
+          <p className="text-muted">جاري التحقق من صلاحياتك...</p>
+        </Container>
+      ) : (
+        <Container fluid>
+          {loading && (
+            <div className="alert alert-info mb-4">
+              <i className="fas fa-spinner fa-spin me-2"></i>
+              جاري تحميل البيانات...
+            </div>
+          )}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h3 mb-0">لوحة التحكم الرئيسية</h1>
         <div className="text-muted">
@@ -159,11 +209,11 @@ export default function AdminDashboard() {
             <Card.Body className="text-center">
               <div className="d-flex align-items-center justify-content-center mb-3">
                 <div className="bg-info bg-opacity-10 rounded-circle p-3 me-3">
-                  <i className="fas fa-users text-info fa-2x"></i>
+                  <i className="fas fa-list text-info fa-2x"></i>
                 </div>
                 <div>
-                  <h3 className="mb-0 text-info">{stats.totalUsers}</h3>
-                  <small className="text-muted">إجمالي المستخدمين</small>
+                  <h3 className="mb-0 text-info">{recentActivities.length}</h3>
+                  <small className="text-muted">أنشطة حالية</small>
                 </div>
               </div>
             </Card.Body>
@@ -309,6 +359,8 @@ export default function AdminDashboard() {
           </Card>
         </Col>
       </Row>
-    </Container>
+        </Container>
+      )}
+    </>
   );
 }

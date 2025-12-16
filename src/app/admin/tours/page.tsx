@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import ProtectedAdminPage from '@/components/ProtectedAdminPage';
 
 interface Tour {
   id: string;
@@ -73,13 +74,14 @@ export default function ToursPage() {
   }
 
   return (
-    <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Tours Management</h1>
-        <Link href="/admin/tours/new" className="btn btn-primary">
-          Add New Tour
-        </Link>
-      </div>
+    <ProtectedAdminPage>
+      <div className="container mt-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h1>Tours Management</h1>
+          <Link href="/admin/tours/new" className="btn btn-primary">
+            Add New Tour
+          </Link>
+        </div>
 
       <div className="card">
         <div className="card-body">
@@ -116,6 +118,7 @@ export default function ToursPage() {
           </table>
         </div>
       </div>
-    </div>
+      </div>
+    </ProtectedAdminPage>
   );
 }

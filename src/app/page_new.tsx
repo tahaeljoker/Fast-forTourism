@@ -5,69 +5,12 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 
-interface Tour {
-  id: string;
-  name: string;
-  country?: string;
-  description?: string;
-  price: number;
-  image?: string;
-}
-
-interface Offer {
-  id: string;
-  title: string;
-  description: string;
-  discountPercentage: number;
-  tourId: string;
-}
-
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
-  const [tours, setTours] = useState<Tour[]>([]);
-  const [offers, setOffers] = useState<Offer[]>([]);
-  const [loadingTours, setLoadingTours] = useState(true);
-  const [loadingOffers, setLoadingOffers] = useState(true);
   const { t } = useLanguage();
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    async function fetchTours() {
-      try {
-        const response = await fetch('/api/tours');
-        if (response.ok) {
-          const data = await response.json();
-          setTours(data.slice(0, 4));
-        }
-      } catch (error) {
-        console.error('Error fetching tours:', error);
-      } finally {
-        setLoadingTours(false);
-      }
-    }
-
-    fetchTours();
-  }, []);
-
-  useEffect(() => {
-    async function fetchOffers() {
-      try {
-        const response = await fetch('/api/offers');
-        if (response.ok) {
-          const data = await response.json();
-          setOffers(data.slice(0, 3));
-        }
-      } catch (error) {
-        console.error('Error fetching offers:', error);
-      } finally {
-        setLoadingOffers(false);
-      }
-    }
-
-    fetchOffers();
   }, []);
 
   const getTransitionStyle = (isVisible: boolean, delay = 0, duration = 800, transform = 20) => ({
@@ -152,27 +95,10 @@ export default function Home() {
             <p className="text-gray-500 mt-4">{t('discoverPopular')}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {!loadingTours && tours.length > 0 ? (
-              tours.map((tour, index) => (
-                <DestinationCard 
-                  key={tour.id}
-                  index={index} 
-                  t={t} 
-                  getTransitionStyle={getTransitionStyle} 
-                  isMounted={isMounted} 
-                  countryKey={tour.country?.toLowerCase() || 'tour'}
-                  image={tour.image || 'https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=1000'}
-                  tourData={tour}
-                />
-              ))
-            ) : (
-              <>
-                <DestinationCard index={0} t={t} getTransitionStyle={getTransitionStyle} isMounted={isMounted} countryKey="egypt" image="https://images.unsplash.com/photo-1568322445389-f64ac2515020?q=80&w=1000" />
-                <DestinationCard index={1} t={t} getTransitionStyle={getTransitionStyle} isMounted={isMounted} countryKey="uae" image="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1000" />
-                <DestinationCard index={2} t={t} getTransitionStyle={getTransitionStyle} isMounted={isMounted} countryKey="malaysia" image="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1000" />
-                <DestinationCard index={3} t={t} getTransitionStyle={getTransitionStyle} isMounted={isMounted} countryKey="europe" image="https://images.unsplash.com/photo-1501594907352-048cd002896c?q=80&w=1000" />
-              </>
-            )}
+            <DestinationCard index={0} t={t} getTransitionStyle={getTransitionStyle} isMounted={isMounted} countryKey="egypt" image="https://images.unsplash.com/photo-1568322445389-f64ac2515020?q=80&w=1000" />
+            <DestinationCard index={1} t={t} getTransitionStyle={getTransitionStyle} isMounted={isMounted} countryKey="uae" image="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1000" />
+            <DestinationCard index={2} t={t} getTransitionStyle={getTransitionStyle} isMounted={isMounted} countryKey="malaysia" image="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1000" />
+            <DestinationCard index={3} t={t} getTransitionStyle={getTransitionStyle} isMounted={isMounted} countryKey="europe" image="https://images.unsplash.com/photo-1501594907352-048cd002896c?q=80&w=1000" />
           </div>
           <div className="text-center mt-12">
             <Link href="/tours" className="py-3 px-8 rounded-full text-lg border-2 border-[var(--primary-color)] text-[var(--primary-color)] bg-transparent hover:bg-[var(--primary-color)] hover:text-white transition-all duration-300">

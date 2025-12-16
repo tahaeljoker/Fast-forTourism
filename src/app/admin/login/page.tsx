@@ -7,23 +7,39 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
 
     // بيانات اعتماد المسؤول
     const ADMIN_EMAIL = 'fastforAdmin@gmail.com';
     const ADMIN_PASSWORD = 'fastAdmin12792';
 
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      // نجاح تسجيل الدخول
-      localStorage.setItem('adminToken', 'your_secret_token'); // يمكنك تغيير التوكن
-      router.push('/admin/dashboard');
+    if (email.trim() === ADMIN_EMAIL && password.trim() === ADMIN_PASSWORD) {
+      try {
+        const token = 'admin_session_' + Date.now();
+        localStorage.setItem('adminToken', token);
+        console.log('✓ تم حفظ التوكن:', token);
+        console.log('✓ التوكن المحفوظ في localStorage:', localStorage.getItem('adminToken'));
+        
+        console.log('✓ جاري الانتقال للداشبورد...');
+        // استخدام window.location للانتقال الفوري والكامل
+        setTimeout(() => {
+          window.location.href = '/admin/dashboard';
+        }, 0);
+      } catch (err) {
+        console.error('✗ خطأ في تسجيل الدخول:', err);
+        setError('حدث خطأ. حاول مرة أخرى.');
+        setIsLoading(false);
+      }
     } else {
-      // فشل تسجيل الدخول
+      console.log('✗ بيانات غير صحيحة');
       setError('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
+      setIsLoading(false);
     }
   };
 
@@ -58,8 +74,12 @@ export default function LoginPage() {
                 placeholder="fastAdmin12792"
               />
             </div>
-            <button type="submit" className="btn btn-primary w-100 mt-3">
-              تسجيل الدخول
+            <button 
+              type="submit" 
+              className="btn btn-primary w-100 mt-3"
+              disabled={isLoading}
+            >
+              {isLoading ? 'جاري التحقق...' : 'تسجيل الدخول'}
             </button>
           </form>
         </div>

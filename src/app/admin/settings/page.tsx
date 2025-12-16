@@ -3,29 +3,31 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Tabs, Tab } from 'react-bootstrap';
+import { useLanguage } from '@/context/LanguageContext';
+import { languages } from '@/lib/translations';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState({
     // General Settings
-    siteName: 'الفرس الأول للسياحة',
+    siteName: 'فاست فور توريزم',
     siteLogo: '/images/logo.png',
     maintenanceMode: false,
 
     // Contact Information
     phoneNumber: '+966501234567',
-    emailAddress: 'info@alfaris.com',
-    physicalAddress: '123 شارع الملك فهد، الرياض، المملكة العربية السعودية',
+    emailAddress: 'info@fastfortourism.com',
+    physicalAddress: 'الرياض، المملكة العربية السعودية',
 
     // Social Media
-    facebookUrl: 'https://facebook.com/alfaris',
-    twitterUrl: 'https://twitter.com/alfaris',
-    instagramUrl: 'https://instagram.com/alfaris',
-    linkedinUrl: 'https://linkedin.com/company/alfaris',
+    facebookUrl: 'https://facebook.com/fastfortourism',
+    twitterUrl: 'https://twitter.com/fastfortourism',
+    instagramUrl: 'https://instagram.com/fastfortourism',
+    linkedinUrl: 'https://linkedin.com/company/fastfortourism',
 
     // SEO Settings
-    metaTitle: 'الفرس الأول للسياحة | الرئيسية',
-    metaDescription: 'أفضل خدمات السياحة والسفر في المملكة العربية السعودية.',
-    metaKeywords: 'سياحة, سفر, حجوزات, فنادق, طيران',
+    metaTitle: 'فاست فور توريزم | أفضل خدمات السياحة والسفر',
+    metaDescription: 'أفضل خدمات السياحة والسفر على مستوى عالمي',
+    metaKeywords: 'سياحة, سفر, حجوزات, فنادق, طيران, تأشيرات',
 
     // Advanced Settings
     googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
@@ -307,6 +309,45 @@ export default function SettingsPage() {
                     يستخدم لإرسال إشعارات للأحداث الهامة (مثل الحجوزات الجديدة).
                   </Form.Text>
                 </Form.Group>
+              </Card.Body>
+            </Card>
+          </Tab>
+
+          <Tab eventKey="languages" title="🌍 اللغات المدعومة">
+            <Card className="border-0 shadow-sm">
+              <Card.Header className="bg-white border-bottom">
+                <h5 className="mb-0">اللغات المدعومة في الموقع</h5>
+              </Card.Header>
+              <Card.Body>
+                <p className="text-muted mb-4">
+                  يتم دعم اللغات التالية في الموقع. يمكن للمستخدمين التبديل بينها من خلال قائمة اختيار اللغة في الشريط العلوي.
+                </p>
+                <Row className="g-3">
+                  {Object.entries(languages).map(([code, lang]) => (
+                    <Col md={6} lg={4} key={code}>
+                      <Card className="h-100 border shadow-sm">
+                        <Card.Body>
+                          <div className="d-flex align-items-center mb-3">
+                            <span className="display-4 me-3">{lang.flag}</span>
+                            <div>
+                              <h6 className="mb-0 fw-bold">{lang.name}</h6>
+                              <small className="text-muted">({code.toUpperCase()})</small>
+                            </div>
+                          </div>
+                          <div className="d-flex gap-2">
+                            <Form.Check
+                              type="switch"
+                              id={`lang-${code}`}
+                              defaultChecked={true}
+                              label="مفعلة"
+                              className="flex-grow-1"
+                            />
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
               </Card.Body>
             </Card>
           </Tab>

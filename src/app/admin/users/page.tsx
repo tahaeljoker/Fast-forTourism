@@ -31,53 +31,8 @@ export default function UsersManagement() {
   // Using permissionLabels imported from types/admin
 
   useEffect(() => {
-    // محاكاة تحميل البيانات
-    setUsers([
-      {
-        id: 1,
-        name: 'مدير النظام',
-        email: 'admin@alfaris.com',
-        phone: '+966501234567',
-        role: 'admin',
-        status: 'active',
-        lastLogin: '2024-01-15 10:30',
-        createdAt: '2024-01-01',
-        permissions: availablePermissions
-      },
-      {
-        id: 2,
-        name: 'أحمد محمد',
-        email: 'ahmed@alfaris.com',
-        phone: '+966507654321',
-        role: 'manager',
-        status: 'active',
-        lastLogin: '2024-01-14 15:45',
-        createdAt: '2024-01-05',
-        permissions: ['manage_tours', 'manage_offers', 'view_analytics']
-      },
-      {
-        id: 3,
-        name: 'فاطمة علي',
-        email: 'fatima@alfaris.com',
-        phone: '+966509876543',
-        role: 'employee',
-        status: 'active',
-        lastLogin: '2024-01-13 09:20',
-        createdAt: '2024-01-08',
-        permissions: ['manage_visas', 'manage_content']
-      },
-      {
-        id: 4,
-        name: 'محمد حسن',
-        email: 'mohammed@alfaris.com',
-        phone: '+966501112233',
-        role: 'employee',
-        status: 'inactive',
-        lastLogin: '2024-01-10 14:15',
-        createdAt: '2024-01-12',
-        permissions: ['manage_tours']
-      }
-    ]);
+    // لا توجد بيانات افتراضية - الصفحة فارغة
+    setUsers([]);
   }, [availablePermissions]);
 
   const handleSubmit = (e: React.FormEvent) => {
