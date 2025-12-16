@@ -10,7 +10,7 @@ const AppNavbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const pathname = usePathname();
-  const { currentLanguage, setLanguage, t, languages, isRTL } = useLanguage();
+  const { currentLanguage, setLanguage, t, languages } = useLanguage();
 
   const tourLinks = [
     { href: '/tours/egypt', key: 'egypt' },
@@ -115,7 +115,7 @@ const AppNavbar = () => {
                       <button
                         key={code}
                         onClick={() => {
-                          setLanguage(code as any);
+                          setLanguage(code as keyof typeof languages);
                           setIsLanguageDropdownOpen(false);
                         }}
                         className={`block w-full text-left px-4 py-3 text-sm font-medium transition-all duration-150 border-l-4 transform hover:translate-x-1 !text-black ${

@@ -13,8 +13,8 @@ export default function AdminDashboard() {
     totalOffers: 0,
     totalVisas: 0
   });
-  const [recentActivities, setRecentActivities] = useState<any[]>([]);
-  const [recentBookings, setRecentBookings] = useState<any[]>([]);
+  const [recentActivities, setRecentActivities] = useState<Array<{id: number; type: string; title: string; date: string; status: string}>>([]);
+  const [recentBookings, setRecentBookings] = useState<Array<{id: number; customer: string; tour: string; date: string; amount: number; status: string}>>([]);
   const [loading, setLoading] = useState(false);
 
   // التحقق من الجلسة والإعادة فوراً إذا لم يكن هناك توكن
@@ -66,14 +66,14 @@ export default function AdminDashboard() {
 
         // تحديث النشاطات الأخيرة من البيانات الفعلية
         const activities = [
-          ...tours.slice(0, 2).map((tour: any) => ({
+          ...tours.slice(0, 2).map((tour: {id: number; name: string}) => ({
             id: tour.id,
             type: 'tour',
             title: tour.name,
             date: new Date().toISOString().split('T')[0],
             status: 'active'
           })),
-          ...offers.slice(0, 1).map((offer: any) => ({
+          ...offers.slice(0, 1).map((offer: {id: number; title: string}) => ({
             id: offer.id,
             type: 'offer',
             title: offer.title,
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
 
         // تحديث الحجوزات الأخيرة (من الجولات والعروض)
         const bookings = [
-          ...tours.slice(0, 3).map((tour: any) => ({
+          ...tours.slice(0, 3).map((tour: {id: number; name: string; price?: number}) => ({
             id: tour.id,
             customer: 'عميل',
             tour: tour.name,

@@ -1,6 +1,5 @@
 "use client";
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 interface Offer {

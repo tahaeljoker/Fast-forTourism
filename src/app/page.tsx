@@ -25,9 +25,7 @@ interface Offer {
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [tours, setTours] = useState<Tour[]>([]);
-  const [offers, setOffers] = useState<Offer[]>([]);
   const [loadingTours, setLoadingTours] = useState(true);
-  const [loadingOffers, setLoadingOffers] = useState(true);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -244,7 +242,14 @@ export default function Home() {
   );
 }
 
-function DestinationCard({ index, t, getTransitionStyle, isMounted, countryKey, image }: any) {
+function DestinationCard({ index, t, getTransitionStyle, isMounted, countryKey, image }: {
+  index: number;
+  t: (key: string) => string;
+  getTransitionStyle: (isMounted: boolean, delay: number, duration: number, offset: number) => React.CSSProperties;
+  isMounted: boolean;
+  countryKey: string;
+  image: string;
+}) {
   return (
     <div 
       className="destination-card-new h-full bg-white rounded-xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-400"

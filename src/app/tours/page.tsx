@@ -1,7 +1,6 @@
 
 "use client";
 import Image from 'next/image';
-import Link from 'next/link';
 import { Container, Row, Col, Card, Button, Carousel } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 

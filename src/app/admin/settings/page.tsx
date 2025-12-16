@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Tabs, Tab } from 'react-bootstrap';
-import { useLanguage } from '@/context/LanguageContext';
 import { languages } from '@/lib/translations';
 
 export default function SettingsPage() {
