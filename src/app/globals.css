@@ -152,49 +152,6 @@ nav.bg-\[var\(--primary-color\)\] .bg-white {
   100% { transform: scale(1); }
 }
 
-/* Navbar Animations */
-@keyframes navbarGlow {
-  0%, 100% { 
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  }
-  50% { 
-    box-shadow: 0 10px 35px -5px rgba(29, 78, 216, 0.3), 0 8px 20px -6px rgba(29, 78, 216, 0.2);
-  }
-}
-
-@keyframes dropdownSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes menuItemHover {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(4px); }
-}
-
-.navbar-dropdown {
-  animation: dropdownSlide 0.2s ease-out;
-}
-
-.navbar-dropdown-item {
-  transition: all 0.3s ease;
-}
-
-.navbar-dropdown-item:hover {
-  animation: menuItemHover 0.3s ease-out forwards;
-}
-
-/* Glow effect for navbar */
-nav.shadow-lg {
-  animation: navbarGlow 3s ease-in-out infinite;
-}
-
 /* A few reusable custom classes if needed */
 .section-title::after {
   content: '';
