@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { getWhatsAppLink } from '@/config/contact';
 
 const IndonesiaPage = () => {
   const highlights = [
@@ -93,7 +94,7 @@ const IndonesiaPage = () => {
                       <span className="badge bg-primary">{pkg.duration}</span>
                       <span className="fw-bold text-primary fs-5">{pkg.price}</span>
                     </div>
-                    <Button variant="primary" className="w-100">Book Now</Button>
+                    <Button variant="primary" className="w-100" onClick={() => window.open(getWhatsAppLink(`I'm interested in: ${pkg.name}`), '_blank')}>Book Now</Button>
                   </Card.Body>
                 </Card>
               </Col>

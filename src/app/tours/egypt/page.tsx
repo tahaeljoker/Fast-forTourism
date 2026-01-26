@@ -3,8 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { getWhatsAppLink } from '@/config/contact';
+import { useLanguage } from '@/context/LanguageContext';
 
 const EgyptPage = () => {
+  const { t } = useLanguage();
+
   const highlights = [
     { icon: 'fa-monument', title: 'The Pyramids', description: 'Explore the ancient wonders of the world' },
     { icon: 'fa-water', title: 'Nile River', description: 'Romantic cruise along the Nile' },
@@ -21,36 +25,28 @@ const EgyptPage = () => {
 
   return (
     <div>
-      {/* Hero Section */}
       <section className="py-20 text-center text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)' }}>
         <div className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30 scale-110" style={{ backgroundImage: 'url(https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2)' }}></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>Egypt</h1>
-          <p className="max-w-3xl mx-auto text-lg md:text-xl">Discover the land of pharaohs and great civilization</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>{t('egypt')}</h1>
+          <p className="max-w-3xl mx-auto text-lg md:text-xl">{t('egyptDesc')}</p>
         </div>
       </section>
 
-      {/* Description Section */}
       <section className="py-20">
         <Container>
           <Row className="align-items-center mb-5">
             <Col lg={6}>
-              <h2 className="text-3xl font-bold mb-4">Discover Ancient Egypt</h2>
-              <p className="text-gray-600 mb-4 text-lg">
-                Egypt, the land of pharaohs and great civilization, is one of the oldest and most magnificent tourist destinations in the world. Enjoy visiting the famous pyramids, explore the Valley of the Kings, and romantic cruises on the Nile River.
-              </p>
-              <p className="text-gray-600 mb-4 text-lg">
-                From bustling Cairo to the peaceful shores of the Red Sea, Egypt offers a unique tourist experience combining history, culture, and relaxation.
-              </p>
-              <p className="text-gray-600 text-lg">
-                Book your trip now and enjoy the best offers and services with us.
-              </p>
+              <h2 className="text-3xl font-bold mb-4">{t('discoverEgypt')}</h2>
+              <p className="text-gray-600 mb-4 text-lg">{t('egyptAbout1')}</p>
+              <p className="text-gray-600 mb-4 text-lg">{t('egyptAbout2')}</p>
+              <p className="text-gray-600 text-lg">{t('egyptAbout3')}</p>
             </Col>
             <Col lg={6}>
               <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src="https://images.pexels.com/photos/755726/pexels-photo-755726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  alt="Egypt"
+                  alt={t('egypt')}
                   fill
                   className="object-cover"
                 />
@@ -60,12 +56,11 @@ const EgyptPage = () => {
         </Container>
       </section>
 
-      {/* Highlights Section */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Key Highlights</h2>
-            <p className="text-gray-600 text-lg">Discover the best that Egypt has to offer</p>
+            <h2 className="text-3xl font-bold mb-4">{t('keyHighlights')}</h2>
+            <p className="text-gray-600 text-lg">{t('keyHighlightsDesc')}</p>
           </div>
           <Row className="g-4">
             {highlights.map((highlight, index) => (
@@ -85,12 +80,11 @@ const EgyptPage = () => {
         </Container>
       </section>
 
-      {/* Packages Section */}
       <section className="py-20">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Tour Packages</h2>
-            <p className="text-gray-600 text-lg">Choose the package that suits you</p>
+            <h2 className="text-3xl font-bold mb-4">{t('tourPackages')}</h2>
+            <p className="text-gray-600 text-lg">{t('choosePackage')}</p>
           </div>
           <Row className="g-4">
             {packages.map((pkg, index) => (
@@ -111,7 +105,7 @@ const EgyptPage = () => {
                       <span className="badge bg-primary">{pkg.duration}</span>
                       <span className="fw-bold text-primary fs-5">{pkg.price}</span>
                     </div>
-                    <Button variant="primary" className="w-100">Book Now</Button>
+                    <Button variant="primary" className="w-100" onClick={() => window.open(getWhatsAppLink(`I'm interested in: ${pkg.name}`), '_blank')}>{t('bookNow')}</Button>
                   </Card.Body>
                 </Card>
               </Col>
@@ -120,16 +114,15 @@ const EgyptPage = () => {
         </Container>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-[var(--primary-color)] to-[#4f46e5] text-white text-center">
         <Container>
-          <h2 className="text-3xl font-bold mb-4">Ready for an Unforgettable Journey?</h2>
-          <p className="text-lg mb-5 opacity-90">Contact us now and get the best offers</p>
+          <h2 className="text-3xl font-bold mb-4">{t('readyForTrip')}</h2>
+          <p className="text-lg mb-5 opacity-90">{t('contactUsNow')}</p>
           <Link href="/contact">
-            <Button variant="light" size="lg" className="me-3">Contact Us</Button>
+            <Button variant="light" size="lg" className="me-3">{t('contact')}</Button>
           </Link>
           <Link href="/tours">
-            <Button variant="outline-light" size="lg">Back to Tours</Button>
+            <Button variant="outline-light" size="lg">{t('backToTours')}</Button>
           </Link>
         </Container>
       </section>

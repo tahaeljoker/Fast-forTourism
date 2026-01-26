@@ -1,5 +1,7 @@
 "use client";
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { useLanguage } from '@/context/LanguageContext';
+import { getWhatsAppLink } from '@/config/contact';
 
 const visaServices = [
   { name: 'United States', flag: '🇺🇸' },
@@ -11,13 +13,15 @@ const visaServices = [
 ];
 
 const VisaPage = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="py-5 bg-light">
       <Container>
         <div className="text-center mb-5">
-          <h1 className="display-4 fw-bold">Visa Services</h1>
+          <h1 className="display-4 fw-bold">{t('visas') || 'Visa Services'}</h1>
           <p className="lead text-muted">
-            We provide expert assistance for tourist visa applications to various countries worldwide.
+            {t('visaServicesDesc') || 'We provide expert assistance for tourist visa applications to various countries worldwide.'}
           </p>
         </div>
 
@@ -79,8 +83,12 @@ const VisaPage = () => {
 
         <div className="text-center mt-5">
           <p className="lead">Ready to start your visa application?</p>
-          <Button variant="primary" size="lg" href="/contact">
-            Contact Us
+          <Button 
+            variant="primary" 
+            size="lg"
+            onClick={() => window.open(getWhatsAppLink('I need visa assistance'), '_blank')}
+          >
+            {t('contact') || 'Contact Us'}
           </Button>
         </div>
       </Container>

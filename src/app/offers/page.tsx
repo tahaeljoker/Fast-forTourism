@@ -1,6 +1,8 @@
 "use client";
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
+import { getWhatsAppLink } from '@/config/contact';
 
 interface Offer {
   id: string;
@@ -11,6 +13,7 @@ interface Offer {
 }
 
 const OffersPage = () => {
+  const { t } = useLanguage();
   const [offers, setOffers] = useState<Offer[]>([]);
 
   useEffect(() => {
@@ -33,9 +36,9 @@ const OffersPage = () => {
     <div className="py-5 bg-light">
       <Container>
         <div className="text-center mb-5">
-          <h1 className="display-4 fw-bold">Special Offers</h1>
+          <h1 className="display-4 fw-bold">{t('offers') || 'Special Offers'}</h1>
           <p className="lead text-muted">
-            Check out our latest offers and book your dream vacation today.
+            {t('specialOffers') || 'Check out our latest offers and book your dream vacation today.'}
           </p>
         </div>
         <Row>
@@ -61,7 +64,13 @@ const OffersPage = () => {
                   <Card.Title className="fw-bold">{offer.title}</Card.Title>
                   <Card.Text className="text-muted">{offer.description}</Card.Text>
                   <p className="text-success fw-bold mb-3">Save {offer.discountPercentage}% now!</p>
-                  <Button variant="primary" className="w-100">Book Offer</Button>
+                  <Button 
+                    variant="primary" 
+                    className="w-100"
+                    onClick={() => window.open(getWhatsAppLink(`I'm interested in: ${offer.title}`), '_blank')}
+                  >
+                    {t('contact') || 'Book Offer'}
+                  </Button>
                 </Card.Body>
               </Card>
             </Col>
