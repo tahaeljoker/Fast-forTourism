@@ -1,0 +1,23 @@
+# Vercel Ignore
+# List files and directories to exclude from Vercel deployment
+
+node_modules
+.git
+.gitignore
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.next
+.vercel
+.DS_Store
+*.pem
+
+# Documentation (optional - remove if you want to include them)
+*.md
+DOCUMENTATION_INDEX.md
+GITHUB_*.md
+TEAM_WORKFLOW.md
+*.bat
