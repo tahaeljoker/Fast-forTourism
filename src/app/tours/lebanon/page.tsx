@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Carousel } from 'react-bootstrap';
 import { getWhatsAppLink } from '@/config/contact';
 
 const LebanonPage = () => {
@@ -22,6 +22,56 @@ const LebanonPage = () => {
 
   return (
     <div>
+      {/* Carousel Section - Styled like Language Switcher */}
+      <section className="py-8">
+        <Container>
+          <div className="country-carousel-container">
+            <Carousel interval={5000} controls indicators fade className="country-carousel">
+              {packages.map((pkg, index) => (
+                <Carousel.Item key={index}>
+                  <div style={{ position: 'relative', height: 400 }}>
+                    <Image
+                      src={pkg.image}
+                      alt={pkg.name}
+                      fill
+                      className="object-cover"
+                    />
+                    <div
+                      className="position-absolute top-0 start-0 w-100 h-100"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(29, 78, 216, 0.6) 0%, rgba(96, 165, 250, 0.6) 100%)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        textAlign: 'center',
+                        color: 'white',
+                        padding: '2rem',
+                      }}
+                    >
+                      <h3 className="text-white fw-bold mb-3" style={{ fontSize: '2rem', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+                        {pkg.name}
+                      </h3>
+                      <p className="text-white mb-4" style={{ fontSize: '1.1rem', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+                        {pkg.description}
+                      </p>
+                      <div className="d-flex gap-3 justify-content-center flex-wrap">
+                        <span className="badge bg-white text-primary fw-bold" style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}>
+                          {pkg.duration}
+                        </span>
+                        <span className="badge bg-white text-primary fw-bold" style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}>
+                          {pkg.price}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </div>
+        </Container>
+      </section>
+
       <section className="py-20 text-center text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)' }}>
         <div className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30 scale-110" style={{ backgroundImage: 'url(https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2)' }}></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">

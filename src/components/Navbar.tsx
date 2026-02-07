@@ -66,26 +66,28 @@ const AppNavbar = () => {
               {/* Tours Dropdown */}
               <div 
                 className="relative group"
-                onMouseEnter={() => setIsDropdownOpen(true)}
-                onMouseLeave={() => setIsDropdownOpen(false)}
               >
                 <button 
+                  onMouseEnter={() => setIsDropdownOpen(true)}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="relative px-3 py-2 text-sm font-medium text-white hover:text-yellow-200 transition-all duration-300 flex items-center transform hover:scale-105"
+                  className="relative px-3 py-2 text-sm font-medium text-white hover:text-blue-200 transition-all duration-300 flex items-center transform hover:scale-105"
                 >
                   <span className="text-white">{t('tours')}</span>
-                  <i className={`fas fa-chevron-down text-xs ms-1 text-white transition-all duration-300 ${isDropdownOpen ? 'rotate-180 text-yellow-300' : ''}`}></i>
+                  <i className={`fas fa-chevron-down text-xs ms-1 text-white transition-all duration-300 ${isDropdownOpen ? 'rotate-180 text-blue-300' : ''}`}></i>
                   {isDropdownOpen && (
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-300 to-yellow-400 rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-300 to-blue-400 rounded-full animate-pulse"></div>
                   )}
                 </button>
                 {isDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-1 w-56 rounded-lg shadow-xl bg-white border-2 border-yellow-300 py-2 z-[60] origin-top-right animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div 
+                    className="absolute right-0 top-full mt-1 w-56 rounded-lg shadow-xl bg-white border-2 border-blue-500 py-2 z-[60] origin-top-right animate-in fade-in slide-in-from-top-2 duration-200"
+                    onMouseLeave={() => setIsDropdownOpen(false)}
+                  >
                     {tourLinks.map((link, index) => (
                       <Link 
                         key={link.href} 
                         href={link.href} 
-                        className="block px-4 py-3 text-sm font-medium text-black hover:bg-gradient-to-r hover:from-blue-50 hover:to-yellow-50 hover:text-black text-left transition-all duration-150 border-l-4 border-transparent hover:border-yellow-300 transform hover:translate-x-1"
+                        className="block px-4 py-3 text-sm font-medium text-black hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-black text-left transition-all duration-150 border-l-4 border-transparent hover:border-blue-500 transform hover:translate-x-1"
                         style={{ animationDelay: `${index * 50}ms` }}
                         onClick={() => setIsDropdownOpen(false)}
                       >
@@ -165,30 +167,30 @@ const AppNavbar = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden animate-in fade-in slide-in-from-top-2 duration-300" id="mobile-menu">
           <div className="block px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-white !important hover:bg-yellow-400/20 hover:text-yellow-300 transition-all duration-300 transform hover:translate-x-1">{t('home')}</Link>
-            <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-white !important hover:bg-yellow-400/20 hover:text-yellow-300 transition-all duration-300 transform hover:translate-x-1">{t('aboutUs')}</Link>
+            <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-white !important hover:bg-blue-400/20 hover:text-blue-300 transition-all duration-300 transform hover:translate-x-1">{t('home')}</Link>
+            <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-white !important hover:bg-blue-400/20 hover:text-blue-300 transition-all duration-300 transform hover:translate-x-1">{t('aboutUs')}</Link>
             {/* Mobile Tours Dropdown - Simplified as a list */}
-            <div className="px-3 py-2 text-base font-medium text-yellow-300 !important">{t('tours')}</div>
+            <div className="px-3 py-2 text-base font-medium text-blue-300 !important">{t('tours')}</div>
             <div className="pl-4 space-y-1">
               {tourLinks.map((link, index) => (
                 <Link 
                   key={link.href} 
                   href={link.href} 
-                  className="block px-3 py-2 rounded-md text-sm font-medium text-white/90 hover:bg-yellow-400/20 hover:text-yellow-300 transition-all duration-300 transform hover:translate-x-1"
+                  className="block px-3 py-2 rounded-md text-sm font-medium text-white/90 hover:bg-blue-400/20 hover:text-blue-300 transition-all duration-300 transform hover:translate-x-1"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   {t(link.key)}
                 </Link>
               ))}
             </div>
-            <Link href="/offers" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-yellow-400/20 hover:text-yellow-300 transition-all duration-300 transform hover:translate-x-1">{t('offers')}</Link>
-            <Link href="/visa" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-yellow-400/20 hover:text-yellow-300 transition-all duration-300 transform hover:translate-x-1">{t('visas')}</Link>
-            <Link href="/admin" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-yellow-400/20 hover:text-yellow-300 transition-all duration-300 transform hover:translate-x-1">{t('admin')}</Link>
-            <Link href="/contact" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-yellow-400/20 hover:text-yellow-300 transition-all duration-300 transform hover:translate-x-1">{t('contact')}</Link>
+            <Link href="/offers" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-blue-400/20 hover:text-blue-300 transition-all duration-300 transform hover:translate-x-1">{t('offers')}</Link>
+            <Link href="/visa" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-blue-400/20 hover:text-blue-300 transition-all duration-300 transform hover:translate-x-1">{t('visas')}</Link>
+            <Link href="/admin" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-blue-400/20 hover:text-blue-300 transition-all duration-300 transform hover:translate-x-1">{t('admin')}</Link>
+            <Link href="/contact" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-blue-400/20 hover:text-blue-300 transition-all duration-300 transform hover:translate-x-1">{t('contact')}</Link>
             
             {/* Mobile Language Switcher */}
             <div className="border-t border-white/20 mt-2 pt-2">
-              <div className="px-3 py-2 text-base font-medium text-yellow-300 mb-2">{t('selectLanguage')}</div>
+              <div className="px-3 py-2 text-base font-medium text-blue-300 mb-2">{t('selectLanguage')}</div>
               <div className="ps-4 space-y-1">
                 {Object.entries(languages).map(([code, lang], index) => (
                   <button
@@ -199,8 +201,8 @@ const AppNavbar = () => {
                     }}
                     className={`block w-full text-right px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:translate-x-1 ${
                       currentLanguage === code
-                        ? 'bg-yellow-400/20 text-yellow-300 font-semibold'
-                        : 'text-white/90 hover:bg-yellow-400/20 hover:text-yellow-300'
+                        ? 'bg-blue-400/20 text-blue-300 font-semibold'
+                        : 'text-white/90 hover:bg-blue-400/20 hover:text-blue-300'
                     }`}
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
