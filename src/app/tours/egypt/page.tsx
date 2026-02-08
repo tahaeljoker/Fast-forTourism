@@ -17,10 +17,10 @@ const EgyptPage = () => {
   ];
 
   const packages = [
-    { name: 'Classic Cairo Tour', duration: '3 Days', price: '$450', description: 'Visit the Pyramids, Egyptian Museum, and Citadel', image: 'https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
-    { name: 'Luxor & Aswan Journey', duration: '5 Days', price: '$750', description: 'Explore temples and Pharaonic monuments', image: 'https://images.pexels.com/photos/755726/pexels-photo-755726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
-    { name: 'Red Sea Diving', duration: '4 Days', price: '$650', description: 'Relaxation and diving in Sharm El Sheikh', image: 'https://images.pexels.com/photos/1261728/pexels-photo-1261728.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
-    { name: 'Complete Egypt Experience', duration: '10 Days', price: '$1500', description: 'Full experience of all Egypt landmarks', image: 'https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1' },
+    { nameKey: 'egyptPackage1', descKey: 'egyptPackage1Desc', duration: '3 Days', price: '$450', image: 'https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
+    { nameKey: 'egyptPackage2', descKey: 'egyptPackage2Desc', duration: '5 Days', price: '$750', image: 'https://images.pexels.com/photos/755726/pexels-photo-755726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
+    { nameKey: 'egyptPackage3', descKey: 'egyptPackage3Desc', duration: '4 Days', price: '$650', image: 'https://images.pexels.com/photos/1261728/pexels-photo-1261728.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' },
+    { nameKey: 'egyptPackage4', descKey: 'egyptPackage4Desc', duration: '10 Days', price: '$1500', image: 'https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1' },
   ];
 
   return (
@@ -35,7 +35,7 @@ const EgyptPage = () => {
                   <div style={{ position: 'relative', height: 400 }}>
                     <Image
                       src={pkg.image}
-                      alt={pkg.name}
+                      alt={t(pkg.nameKey)}
                       fill
                       className="object-cover"
                     />
@@ -53,10 +53,10 @@ const EgyptPage = () => {
                       }}
                     >
                       <h3 className="text-white fw-bold mb-3" style={{ fontSize: '2rem', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
-                        {pkg.name}
+                        {t(pkg.nameKey)}
                       </h3>
                       <p className="text-white mb-4" style={{ fontSize: '1.1rem', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
-                        {pkg.description}
+                        {t(pkg.descKey)}
                       </p>
                       <div className="d-flex gap-3 justify-content-center flex-wrap">
                         <span className="badge bg-white text-primary fw-bold" style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}>
@@ -142,19 +142,19 @@ const EgyptPage = () => {
                   <div className="position-relative" style={{ height: '200px' }}>
                     <Image
                       src={pkg.image}
-                      alt={pkg.name}
+                      alt={t(pkg.nameKey)}
                       fill
                       className="object-cover"
                     />
                   </div>
                   <Card.Body>
-                    <Card.Title className="fw-bold mb-2">{pkg.name}</Card.Title>
-                    <Card.Text className="text-muted mb-3">{pkg.description}</Card.Text>
+                    <Card.Title className="fw-bold mb-2">{t(pkg.nameKey)}</Card.Title>
+                    <Card.Text className="text-muted mb-3">{t(pkg.descKey)}</Card.Text>
                     <div className="d-flex justify-content-between align-items-center mb-3">
                       <span className="badge bg-primary">{pkg.duration}</span>
                       <span className="fw-bold text-primary fs-5">{pkg.price}</span>
                     </div>
-                    <Button variant="primary" className="w-100" onClick={() => window.open(getWhatsAppLink(`I'm interested in: ${pkg.name}`), '_blank')}>{t('bookNow')}</Button>
+                    <Button variant="primary" className="w-100" onClick={() => window.open(getWhatsAppLink(`I'm interested in: ${t(pkg.nameKey)}`), '_blank')}>{t('bookNow')}</Button>
                   </Card.Body>
                 </Card>
               </Col>

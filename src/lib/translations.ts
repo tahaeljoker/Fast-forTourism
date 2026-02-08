@@ -168,6 +168,16 @@ export const translations: Record<Language, Record<string, string>> = {
     chinaAbout2: 'استكشف المعابد القديمة، وتذوق المأكولات المتنوعة، وعش المناظر الخلابة. الصين تقدم مغامرة لا تُنسى.',
     chinaAbout3: 'احجز رحلتك الآن.',
     
+    // Egypt Tour Packages
+    egyptPackage1: 'جولة القاهرة الكلاسيكية',
+    egyptPackage1Desc: 'زر الأهرامات والمتحف المصري والقلعة',
+    egyptPackage2: 'رحلة الأقصر وأسوان',
+    egyptPackage2Desc: 'استكشف المعابد والآثار الفرعونية',
+    egyptPackage3: 'الغوص في البحر الأحمر',
+    egyptPackage3Desc: 'الاسترخاء والغوص في شرم الشيخ',
+    egyptPackage4: 'تجربة مصر الكاملة',
+    egyptPackage4Desc: 'تجربة شاملة لجميع المعالم المصرية',
+    
     // Common
     save: 'حفظ',
     cancel: 'إلغاء',
@@ -336,6 +346,16 @@ export const translations: Record<Language, Record<string, string>> = {
     chinaAbout1: 'China, one of the world\'s oldest civilizations. From the Great Wall to the Forbidden City, a journey through thousands of years of history.',
     chinaAbout2: 'Explore ancient temples, savor diverse cuisine, and experience stunning landscapes. China offers an unforgettable adventure.',
     chinaAbout3: 'Book your trip now.',
+    
+    // Egypt Tour Packages
+    egyptPackage1: 'Classic Cairo Tour',
+    egyptPackage1Desc: 'Visit the Pyramids, Egyptian Museum, and Citadel',
+    egyptPackage2: 'Luxor & Aswan Journey',
+    egyptPackage2Desc: 'Explore temples and Pharaonic monuments',
+    egyptPackage3: 'Red Sea Diving',
+    egyptPackage3Desc: 'Relaxation and diving in Sharm El Sheikh',
+    egyptPackage4: 'Complete Egypt Experience',
+    egyptPackage4Desc: 'Full experience of all Egypt landmarks',
     
     // Common
     save: 'Save',
@@ -506,6 +526,16 @@ export const translations: Record<Language, Record<string, string>> = {
     chinaAbout2: '探索古寺、多元美食与壮丽景观。中国带来难忘冒险。',
     chinaAbout3: '立即预订。',
     
+    // Egypt Tour Packages
+    egyptPackage1: '开罗经典之旅',
+    egyptPackage1Desc: '游览金字塔、埃及博物馆和城堡',
+    egyptPackage2: '卢克索和阿斯旺之旅',
+    egyptPackage2Desc: '探索寺庙和法老纪念碑',
+    egyptPackage3: '红海潜水',
+    egyptPackage3Desc: '在沙姆沙伊赫放松和潜水',
+    egyptPackage4: '完整埃及体验',
+    egyptPackage4Desc: '所有埃及地标的完整体验',
+    
     // Common
     save: '保存',
     cancel: '取消',
@@ -674,6 +704,16 @@ export const translations: Record<Language, Record<string, string>> = {
     chinaAbout1: 'La Chine, l\'une des plus anciennes civilisations. De la Grande Muraille à la Cité interdite.',
     chinaAbout2: 'Temples anciens, cuisine variée et paysages époustouflants.',
     chinaAbout3: 'Réservez maintenant.',
+    
+    // Egypt Tour Packages
+    egyptPackage1: 'Tour Classique du Caire',
+    egyptPackage1Desc: 'Visitez les Pyramides, le Musée Égyptien et la Citadelle',
+    egyptPackage2: 'Voyage à Louxor et Assouan',
+    egyptPackage2Desc: 'Explorez les temples et les monuments pharaoniques',
+    egyptPackage3: 'Plongée en Mer Rouge',
+    egyptPackage3Desc: 'Détente et plongée à Sharm El Sheikh',
+    egyptPackage4: 'Expérience Complète Égypte',
+    egyptPackage4Desc: 'Expérience complète de tous les monuments égyptiens',
     
     // Common
     save: 'Enregistrer',
@@ -844,6 +884,16 @@ export const translations: Record<Language, Record<string, string>> = {
     chinaAbout2: 'Templos antiguos, gastronomía diversa y paisajes impresionantes.',
     chinaAbout3: 'Reserva ahora.',
     
+    // Egypt Tour Packages
+    egyptPackage1: 'Tour Clásico de El Cairo',
+    egyptPackage1Desc: 'Visita las Pirámides, el Museo Egipcio y la Ciudadela',
+    egyptPackage2: 'Viaje a Luxor y Asuán',
+    egyptPackage2Desc: 'Explora templos y monumentos faraónicos',
+    egyptPackage3: 'Buceo en el Mar Rojo',
+    egyptPackage3Desc: 'Relajación y buceo en Sharm El Sheikh',
+    egyptPackage4: 'Experiencia Completa de Egipto',
+    egyptPackage4Desc: 'Experiencia completa de todos los monumentos de Egipto',
+    
     // Common
     save: 'Guardar',
     cancel: 'Cancelar',
@@ -1012,6 +1062,16 @@ export const translations: Record<Language, Record<string, string>> = {
     chinaAbout1: 'China, eine der ältesten Zivilisationen. Von der Großen Mauer zur Verbotenen Stadt.',
     chinaAbout2: 'Antike Tempel, vielfältige Küche und atemberaubende Landschaften.',
     chinaAbout3: 'Buchen Sie jetzt.',
+    
+    // Egypt Tour Packages
+    egyptPackage1: 'Klassische Kairo-Tour',
+    egyptPackage1Desc: 'Besuchen Sie die Pyramiden, das Ägyptische Museum und die Zitadel',
+    egyptPackage2: 'Luxor & Assuan Reise',
+    egyptPackage2Desc: 'Erkunden Sie Tempel und pharaonische Denkmäler',
+    egyptPackage3: 'Rotes Meer Tauchen',
+    egyptPackage3Desc: 'Entspannung und Tauchen in Sharm El Sheikh',
+    egyptPackage4: 'Komplettes Ägypten Erlebnis',
+    egyptPackage4Desc: 'Vollständiges Erlebnis aller ägyptischen Wahrzeichen',
     
     // Common
     save: 'Speichern',
