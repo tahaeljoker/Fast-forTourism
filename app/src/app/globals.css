@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --primary-color: #1d4ed8;
@@ -13,13 +15,6 @@
   --transition-slow: all 0.5s ease-out;
   --transition-medium: all 0.3s ease;
   --transition-fast: all 0.2s ease-in-out;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 /* Global Styles */
