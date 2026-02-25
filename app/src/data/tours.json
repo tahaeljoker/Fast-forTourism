@@ -1,0 +1,101 @@
+[
+  {
+    "id": "1",
+    "country": "egypt",
+    "nameKey": "egyptPackage1",
+    "descKey": "egyptPackage1Desc",
+    "duration": "3 Days",
+    "price": "$450",
+    "image": "https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "2",
+    "country": "egypt",
+    "nameKey": "egyptPackage2",
+    "descKey": "egyptPackage2Desc",
+    "duration": "5 Days",
+    "price": "$750",
+    "image": "https://images.pexels.com/photos/755726/pexels-photo-755726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "3",
+    "country": "egypt",
+    "nameKey": "egyptPackage3",
+    "descKey": "egyptPackage3Desc",
+    "duration": "4 Days",
+    "price": "$650",
+    "image": "https://images.pexels.com/photos/1261728/pexels-photo-1261728.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "4",
+    "country": "egypt",
+    "nameKey": "egyptPackage4",
+    "descKey": "egyptPackage4Desc",
+    "duration": "10 Days",
+    "price": "$1500",
+    "image": "https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1"
+  },
+  {
+    "id": "5",
+    "country": "uae",
+    "nameKey": "uaePackage1",
+    "descKey": "uaePackage1Desc",
+    "duration": "4 Days",
+    "price": "$800",
+    "image": "https://images.pexels.com/photos/2044434/pexels-photo-2044434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "6",
+    "country": "saudi",
+    "nameKey": "saudiPackage1",
+    "descKey": "saudiPackage1Desc",
+    "duration": "10 Days",
+    "price": "$1200",
+    "image": "https://images.pexels.com/photos/450441/pexels-photo-450441.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "7",
+    "country": "europe",
+    "nameKey": "europePackage1",
+    "descKey": "europePackage1Desc",
+    "duration": "14 Days",
+    "price": "$2500",
+    "image": "https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "8",
+    "country": "indonesia",
+    "nameKey": "indonesiaPackage1",
+    "descKey": "indonesiaPackage1Desc",
+    "duration": "7 Days",
+    "price": "$900",
+    "image": "https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "9",
+    "country": "lebanon",
+    "nameKey": "lebanonPackage1",
+    "descKey": "lebanonPackage1Desc",
+    "duration": "5 Days",
+    "price": "$600",
+    "image": "https://images.pexels.com/photos/1684880/pexels-photo-1684880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "10",
+    "country": "malaysia",
+    "nameKey": "malaysiaPackage1",
+    "descKey": "malaysiaPackage1Desc",
+    "duration": "7 Days",
+    "price": "$850",
+    "image": "https://images.pexels.com/photos/247968/pexels-photo-247968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "11",
+    "country": "china",
+    "nameKey": "chinaPackage1",
+    "descKey": "chinaPackage1Desc",
+    "duration": "10 Days",
+    "price": "$1500",
+    "image": "https://images.pexels.com/photos/247968/pexels-photo-247968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  }
+]
