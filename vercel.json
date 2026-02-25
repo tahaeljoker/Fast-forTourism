@@ -3,9 +3,7 @@
   "devCommand": "cd app && npm run dev",
   "installCommand": "cd app && npm install",
   "framework": "nextjs",
-  "projectSettings": {
-    "rootDirectory": "app"
-  },
+  "rootDirectory": "app",
   "env": {
     "NEXT_PUBLIC_API_URL": "@next_public_api_url",
     "NEXT_PUBLIC_LANGUAGE": "@next_public_language"
