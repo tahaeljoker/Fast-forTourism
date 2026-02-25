@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "title": "Early Bird Discount for Egypt",
+    "description": "Book your Egypt tour 3 months in advance and get a 30% discount!",
+    "discountPercentage": 30,
+    "tourId": "1"
+  },
+  {
+    "id": "2",
+    "title": "Europe Summer Special",
+    "description": "Get 10% off on our European Capitals tour this summer.",
+    "discountPercentage": 10,
+    "tourId": "2"
+  }
+]
