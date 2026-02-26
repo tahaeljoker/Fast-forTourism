@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const dataFilePath = path.join(process.cwd(), 'src', 'data', 'offers.json');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 type Offer = {
   id: string;
@@ -12,37 +13,27 @@ type Offer = {
   tourId?: string;
 };
 
-// Helper function to read data
-async function readOffersData(): Promise<Offer[]> {
-  try {
-    const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData) as Offer[];
-  } catch (error: unknown) {
-    const e = error as { code?: string };
-    if (e.code === 'ENOENT') {
-      return [];
-    }
-    throw error;
-  }
-}
-
-// Helper function to write data
-async function writeOffersData(data: Offer[]) {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
-}
-
 export async function GET() {
   try {
-    const offers = await readOffersData();
-    return NextResponse.json(offers);
-  } catch {
+    const { data: offers, error } = await supabase
+      .from('offers')
+      .select('*')
+      .order('id', { ascending: false });
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
+    }
+
+    return NextResponse.json(offers || []);
+  } catch (error) {
+    console.error('GET error:', error);
     return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const offers = await readOffersData();
     const newOffer = await request.json();
 
     // Basic validation
@@ -50,16 +41,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Missing required fields: title and discountPercentage' }, { status: 400 });
     }
 
-    const newOfferWithId = {
-      id: (offers.length + 1).toString(),
-      ...newOffer,
-    };
+    const { data, error } = await supabase
+      .from('offers')
+      .insert([{
+        title: newOffer.title,
+        description: newOffer.description || '',
+        discountPerc: newOffer.discountPercentage,
+        tourId: newOffer.tourId || null,
+      }])
+      .select()
+      .single();
 
-    offers.push(newOfferWithId);
-    await writeOffersData(offers);
+    if (error) {
+      console.error('Supabase insert error:', error);
+      return NextResponse.json({ message: 'Error writing data: ' + error.message }, { status: 500 });
+    }
 
-    return NextResponse.json(newOfferWithId, { status: 201 });
-  } catch {
+    return NextResponse.json(data, { status: 201 });
+  } catch (error) {
+    console.error('POST error:', error);
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }

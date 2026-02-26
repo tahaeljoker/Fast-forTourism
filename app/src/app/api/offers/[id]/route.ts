@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const dataFilePath = path.join(process.cwd(), 'src', 'data', 'offers.json');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 type Offer = {
   id: string;
@@ -12,32 +13,18 @@ type Offer = {
   tourId: string;
 };
 
-// Helper function to read data
-async function readOffersData(): Promise<Offer[]> {
-  try {
-    const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData) as Offer[];
-  } catch (error) {
-    // if (error.code === 'ENOENT') {
-    //   return [];
-    // }
-    throw error;
-  }
-}
-
-// Helper function to write data
-async function writeOffersData(data: Offer[]) {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
-}
-
 // GET a single offer by ID
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const offers = await readOffersData();
-    const offer = offers.find((o) => o.id === id);
+    
+    const { data: offer, error } = await supabase
+      .from('offers')
+      .select('*')
+      .eq('id', id)
+      .single();
 
-    if (!offer) {
+    if (error || !offer) {
       return NextResponse.json({ message: 'Offer not found' }, { status: 404 });
     }
 
@@ -51,15 +38,15 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const offers = await readOffersData();
-    const offerIndex = offers.findIndex((o) => o.id === id);
+    
+    const { error } = await supabase
+      .from('offers')
+      .delete()
+      .eq('id', id);
 
-    if (offerIndex === -1) {
-      return NextResponse.json({ message: 'Offer not found' }, { status: 404 });
+    if (error) {
+      return NextResponse.json({ message: 'Error deleting offer', error: error.message }, { status: 500 });
     }
-
-    offers.splice(offerIndex, 1);
-    await writeOffersData(offers);
 
     return NextResponse.json({ message: 'Offer deleted successfully' }, { status: 200 });
   } catch (error) {
@@ -71,13 +58,6 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const offers = await readOffersData();
-    const offerIndex = offers.findIndex((o) => o.id === id);
-
-    if (offerIndex === -1) {
-      return NextResponse.json({ message: 'Offer not found' }, { status: 404 });
-    }
-
     const updatedOfferData = await request.json() as Partial<Offer>;
     
     // Basic validation
@@ -85,10 +65,23 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ message: 'Missing required fields: title and discountPercentage' }, { status: 400 });
     }
 
-    offers[offerIndex] = { ...offers[offerIndex], ...updatedOfferData };
-    await writeOffersData(offers);
+    const { data, error } = await supabase
+      .from('offers')
+      .update({
+        title: updatedOfferData.title,
+        description: updatedOfferData.description,
+        discountPerc: updatedOfferData.discountPercentage,
+        tourId: updatedOfferData.tourId,
+      })
+      .eq('id', id)
+      .select()
+      .single();
 
-    return NextResponse.json(offers[offerIndex]);
+    if (error) {
+      return NextResponse.json({ message: 'Error updating offer', error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ message: 'Error writing data', error: (error as Error).message }, { status: 500 });
   }
