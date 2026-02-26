@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+// Create client only if env vars are available
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 type Offer = {
   id: string;
@@ -15,6 +17,10 @@ type Offer = {
 
 export async function GET() {
   try {
+    if (!supabase) {
+      return NextResponse.json({ message: 'Database not configured' }, { status: 500 });
+    }
+    
     const { data: offers, error } = await supabase
       .from('offers')
       .select('*')
@@ -41,6 +47,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Missing required fields: title and discountPercentage' }, { status: 400 });
     }
 
+    if (!supabase) {
+      return NextResponse.json({ message: 'Database not configured' }, { status: 500 });
+    }
+    
     const { data, error } = await supabase
       .from('offers')
       .insert([{

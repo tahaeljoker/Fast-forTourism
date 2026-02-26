@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+// Create client only if env vars are available
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 type Offer = {
   id: string;
@@ -16,6 +18,10 @@ type Offer = {
 // GET a single offer by ID
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ message: 'Database not configured' }, { status: 500 });
+    }
+    
     const { id } = await params;
     
     const { data: offer, error } = await supabase
@@ -37,6 +43,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
 // DELETE an offer by ID
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ message: 'Database not configured' }, { status: 500 });
+    }
+    
     const { id } = await params;
     
     const { error } = await supabase
@@ -63,6 +73,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     // Basic validation
     if (!updatedOfferData.title || !updatedOfferData.discountPercentage) {
       return NextResponse.json({ message: 'Missing required fields: title and discountPercentage' }, { status: 400 });
+    }
+
+    if (!supabase) {
+      return NextResponse.json({ message: 'Database not configured' }, { status: 500 });
     }
 
     const { data, error } = await supabase
