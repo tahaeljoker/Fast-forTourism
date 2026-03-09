@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const dataFilePath = path.join(process.cwd(), 'src', 'data', 'visas.json');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 type Visa = {
   id: string;
@@ -12,33 +13,16 @@ type Visa = {
   price: number;
 };
 
-// Helper function to read data
-async function readVisasData(): Promise<Visa[]> {
-  try {
-    const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData) as Visa[];
-  } catch (error: unknown) {
-    const e = error as { code?: string };
-    if (e.code === 'ENOENT') {
-      return [];
-    }
-    throw error;
-  }
-}
-
-// Helper function to write data
-async function writeVisasData(data: Visa[]) {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
-}
-
 // GET a single visa by ID
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
+    }
     const { id } = await params;
-    const visas = await readVisasData();
-    const visa = visas.find((v) => v.id === id);
+    const { data: visa, error } = await supabase.from('visas').select('*').eq('id', id).single();
 
-    if (!visa) {
+    if (error || !visa) {
       return NextResponse.json({ message: 'Visa not found' }, { status: 404 });
     }
 
@@ -51,16 +35,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 // DELETE a visa by ID
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
+    }
     const { id } = await params;
-    const visas = await readVisasData();
-    const visaIndex = visas.findIndex((v) => v.id === id);
+    const { error } = await supabase.from('visas').delete().eq('id', id);
 
-    if (visaIndex === -1) {
+    if (error) {
       return NextResponse.json({ message: 'Visa not found' }, { status: 404 });
     }
-
-    visas.splice(visaIndex, 1);
-    await writeVisasData(visas);
 
     return NextResponse.json({ message: 'Visa deleted successfully' }, { status: 200 });
   } catch {
@@ -71,14 +54,10 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 // PUT (update) a visa by ID
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = await params;
-    const visas = await readVisasData();
-    const visaIndex = visas.findIndex((v) => v.id === id);
-
-    if (visaIndex === -1) {
-      return NextResponse.json({ message: 'Visa not found' }, { status: 404 });
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
     }
-
+    const { id } = await params;
     const updatedVisaData = await request.json();
     
     // Basic validation
@@ -86,10 +65,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ message: 'Missing required fields: country, type, and price' }, { status: 400 });
     }
 
-    visas[visaIndex] = { ...visas[visaIndex], ...updatedVisaData };
-    await writeVisasData(visas);
+    const { data, error } = await supabase.from('visas').update(updatedVisaData).eq('id', id).select().single();
 
-    return NextResponse.json(visas[visaIndex]);
+    if (error || !data) {
+      return NextResponse.json({ message: 'Visa not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(data);
   } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }

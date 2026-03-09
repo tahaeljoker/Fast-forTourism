@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const dataFilePath = path.join(process.cwd(), 'src', 'data', 'visas.json');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 type Visa = {
   id: string;
@@ -12,37 +13,28 @@ type Visa = {
   price: number;
 };
 
-// Helper function to read data
-async function readVisasData(): Promise<Visa[]> {
-  try {
-    const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData) as Visa[];
-  } catch (error: unknown) {
-    const e = error as { code?: string };
-    if (e.code === 'ENOENT') {
-      return [];
-    }
-    throw error;
-  }
-}
-
-// Helper function to write data
-async function writeVisasData(data: Visa[]) {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
-}
-
 export async function GET() {
   try {
-    const visas = await readVisasData();
-    return NextResponse.json(visas);
-  } catch {
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
+    }
+    const { data: visas, error } = await supabase.from('visas').select('*').order('created_at', { ascending: false });
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json({ message: `Error fetching visas: ${error.message}` }, { status: 500 });
+    }
+    return NextResponse.json(visas || []);
+  } catch (error) {
+    console.error('API/visas GET error:', error);
     return NextResponse.json({ message: 'Error reading data' }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const visas = await readVisasData();
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
+    }
     const newVisa = await request.json();
 
     // Basic validation
@@ -50,16 +42,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Missing required fields: country, type, and price' }, { status: 400 });
     }
 
-    const newVisaWithId = {
-      id: (visas.length + 1).toString(),
-      ...newVisa,
-    };
+    const { data, error } = await supabase.from('visas').insert([newVisa]).select().single();
 
-    visas.push(newVisaWithId);
-    await writeVisasData(visas);
+    if (error) {
+      console.error('Supabase insert error:', error);
+      return NextResponse.json({ message: `Error creating visa: ${error.message}` }, { status: 500 });
+    }
 
-    return NextResponse.json(newVisaWithId, { status: 201 });
-  } catch {
+    return NextResponse.json(data, { status: 201 });
+  } catch (error) {
+    console.error('API/visas POST error:', error);
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }

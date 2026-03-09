@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const dataFilePath = path.join(process.cwd(), 'src', 'data', 'tours.json');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 type Tour = {
   id: string;
@@ -13,29 +14,17 @@ type Tour = {
   image: string;
 };
 
-// Helper function to read data
-async function readToursData(): Promise<Tour[]> {
-  try {
-    const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData) as Tour[];
-  } catch (error: unknown) {
-    const e = error as { code?: string };
-    if (e.code === 'ENOENT') {
-      return [];
-    }
-    throw error;
-  }
-}
-
-// Helper function to write data
-async function writeToursData(data: Tour[]) {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
-}
-
 export async function GET() {
   try {
-    const tours = await readToursData();
-    return NextResponse.json(tours);
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
+    }
+    const { data: tours, error } = await supabase.from('tours').select('*').order('created_at', { ascending: false });
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json({ message: `Error fetching tours: ${error.message}` }, { status: 500 });
+    }
+    return NextResponse.json(tours || []);
   } catch (error) {
     console.error('API/tours GET error:', error);
     const message = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -45,7 +34,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const tours = await readToursData();
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
+    }
     const newTour = await request.json();
 
     // Basic validation
@@ -53,16 +44,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Missing required fields: name, price, country, and image' }, { status: 400 });
     }
 
-    const newTourWithId = {
-      id: (tours.length + 1).toString(),
-      ...newTour,
-    };
+    const { data, error } = await supabase.from('tours').insert([newTour]).select().single();
 
-    tours.push(newTourWithId);
-    await writeToursData(tours);
+    if (error) {
+      console.error('Supabase insert error:', error);
+      return NextResponse.json({ message: `Error creating tour: ${error.message}` }, { status: 500 });
+    }
 
-    return NextResponse.json(newTourWithId, { status: 201 });
-  } catch {
+    return NextResponse.json(data, { status: 201 });
+  } catch (error) {
+    console.error('API/tours POST error:', error);
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
 }

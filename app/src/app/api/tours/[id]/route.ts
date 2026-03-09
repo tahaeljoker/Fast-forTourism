@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const dataFilePath = path.join(process.cwd(), 'src', 'data', 'tours.json');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 type Tour = {
   id: string;
@@ -13,33 +14,16 @@ type Tour = {
   image?: string;
 };
 
-// Helper function to read data
-async function readToursData(): Promise<Tour[]> {
-  try {
-    const fileData = await fs.readFile(dataFilePath, 'utf-8');
-    return JSON.parse(fileData) as Tour[];
-  } catch (error: unknown) {
-    const e = error as { code?: string };
-    if (e.code === 'ENOENT') {
-      return [];
-    }
-    throw error;
-  }
-}
-
-// Helper function to write data
-async function writeToursData(data: Tour[]) {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
-}
-
 // GET a single tour by ID
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
+    }
     const { id } = await params;
-    const tours = await readToursData();
-    const tour = tours.find((t) => t.id === id);
+    const { data: tour, error } = await supabase.from('tours').select('*').eq('id', id).single();
 
-    if (!tour) {
+    if (error || !tour) {
       return NextResponse.json({ message: 'Tour not found' }, { status: 404 });
     }
 
@@ -52,16 +36,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 // DELETE a tour by ID
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
+    }
     const { id } = await params;
-    const tours = await readToursData();
-    const tourIndex = tours.findIndex((t) => t.id === id);
+    const { error } = await supabase.from('tours').delete().eq('id', id);
 
-    if (tourIndex === -1) {
+    if (error) {
       return NextResponse.json({ message: 'Tour not found' }, { status: 404 });
     }
-
-    tours.splice(tourIndex, 1);
-    await writeToursData(tours);
 
     return NextResponse.json({ message: 'Tour deleted successfully' }, { status: 200 });
   } catch {
@@ -72,14 +55,10 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 // PUT (update) a tour by ID
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = await params;
-    const tours = await readToursData();
-    const tourIndex = tours.findIndex((t) => t.id === id);
-
-    if (tourIndex === -1) {
-      return NextResponse.json({ message: 'Tour not found' }, { status: 404 });
+    if (!supabase) {
+      return NextResponse.json({ message: 'Supabase client not initialized' }, { status: 500 });
     }
-
+    const { id } = await params;
     const updatedTourData = await request.json();
     
     // Basic validation
@@ -87,10 +66,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ message: 'Missing required fields: name and price' }, { status: 400 });
     }
 
-    tours[tourIndex] = { ...tours[tourIndex], ...updatedTourData };
-    await writeToursData(tours);
+    const { data, error } = await supabase.from('tours').update(updatedTourData).eq('id', id).select().single();
 
-    return NextResponse.json(tours[tourIndex]);
+    if (error || !data) {
+      return NextResponse.json({ message: 'Tour not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(data);
   } catch {
     return NextResponse.json({ message: 'Error writing data' }, { status: 500 });
   }
